@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/theme_value.dart';
 
-Future<Object?> showBottomSheet({
+Future<Object?> showBaseBottomSheet({
   required BuildContext context,
   required Widget Function(BuildContext context) builder,
   EdgeInsetsGeometry padding = const EdgeInsets.all(sizeL),

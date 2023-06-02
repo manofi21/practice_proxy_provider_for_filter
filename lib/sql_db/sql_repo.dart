@@ -12,6 +12,10 @@ abstract class SqlBaseRepo {
     required String table,
     required T Function(Map<String, dynamic> map) fromMap,
   });
+  Future<List<T>> getListDataRawQuery<T>({
+    required String rawQuery,
+    required T Function(Map<String, dynamic> map) fromMap,
+  });
   Future<T?> getSingleData<T>({
     required String table,
     required T Function(Map<String, dynamic> map) fromMap,
@@ -24,120 +28,14 @@ abstract class SqlBaseRepo {
     List<Object?>? whereArgs,
   });
   Future<T> doBatchActionValue<T>({
-    required FutureOr Function(Batch batch) action,
+    required FutureOr<void> Function(Batch batch) action,
+    required FutureOr<T> Function(List<Object?> valueResult) handleResut,
   });
-}
-
-class SqlBaseRepoImplOld implements SqlBaseRepo {
-  @override
-  Future<void> deleteData({
-    required String table,
-    String? where,
-    List<Object?>? whereArgs,
-  }) async {
-    final database = await getAndSetupDB();
-    await database.delete(
-      table,
-      where: where,
-      whereArgs: whereArgs,
-    );
-  }
-
-  @override
-  Future<List<T>> getListData<T>({
-    required String table,
-    required T Function(Map<String, dynamic> map) fromMap,
-    int? limit,
-    SqfliteOrder? orderBy,
-    String? where,
-    List<Object?>? whereArgs,
-  }) async {
-    final database = await getAndSetupDB();
-    final listDBData = await database.query(
-      table,
-      limit: limit,
-      orderBy: orderBy?.value,
-      where: where,
-      whereArgs: whereArgs,
-    );
-
-    final listData = listDBData.map((map) => fromMap(map)).toList();
-    return listData;
-  }
-
-  @override
-  Future<T?> getSingleData<T>({
-    required String table,
-    required T Function(Map<String, dynamic> map) fromMap,
-    String? where,
-    List<Object?>? whereArgs,
-    SqfliteOrder? orderBy,
-  }) async {
-    final currDB = await getAndSetupDB();
-
-    final listDBData = await currDB.query(
-      table,
-      orderBy: orderBy?.value,
-      where: where,
-      whereArgs: whereArgs,
-    );
-    final listData = listDBData.map((map) => fromMap(map)).toList();
-    if (listData.isEmpty) {
-      return null;
-    }
-    return listData.first;
-  }
-
-  @override
-  Future<void> insertData(
-    String table,
-    Map<String, Object?> mapData,
-  ) async {
-    final database = await getAndSetupDB();
-    await database.insert(table, mapData);
-  }
-
-  @override
-  Future<T> doBatchActionValue<T>({
-    required FutureOr Function(Batch batch) action,
-  }) async {
-    final database = await getAndSetupDB();
-    final asBatch = database.batch();
-    await action(asBatch);
-
-    final result = asBatch.commit();
-
-    assert(
-      result is T,
-      "Pastikan [T] sesuai dengan result bertipe${result.runtimeType}",
-    );
-    return result as T;
-  }
-
-  Future<int> countDataFromTable(
-    String tableName, {
-    String? where,
-    List<Object?>? whereArgs,
-  }) async {
-    final currDB = await getAndSetupDB();
-
-    final tableWithWhere =
-        tableName + ((where ?? '').isEmpty ? '' : ' WHERE $where');
-    final countData = await currDB.rawQuery(
-      'SELECT COUNT(*) FROM $tableWithWhere',
-      whereArgs,
-    );
-    final returnValue = countData.isEmpty
-        ? -1
-        : (countData.first.values.isEmpty
-            ? -1
-            : convertType<int>(countData.first.values.first) ?? 0);
-    return returnValue;
-  }
 }
 
 class SqlBaseRepoImpl implements SqlBaseRepo {
-  static final SqlBaseRepoImpl _instance = SqlBaseRepoImpl._privateConstructor();
+  static final SqlBaseRepoImpl _instance =
+      SqlBaseRepoImpl._privateConstructor();
   static Database? _database;
 
   SqlBaseRepoImpl._privateConstructor();
@@ -226,19 +124,16 @@ class SqlBaseRepoImpl implements SqlBaseRepo {
 
   @override
   Future<T> doBatchActionValue<T>({
-    required FutureOr Function(Batch batch) action,
+    required FutureOr<void> Function(Batch batch) action,
+    required FutureOr<T> Function(List<Object?> valueResult) handleResut,
   }) async {
     final db = await database;
     final asBatch = db.batch();
     await action(asBatch);
 
-    final result = asBatch.commit();
-
-    assert(
-      result is T,
-      "Pastikan [T] sesuai dengan result bertipe${result.runtimeType}",
-    );
-    return result as T;
+    final result = await asBatch.commit();
+    final handledResult = await handleResut(result);
+    return handledResult;
   }
 
   Future<int> countDataFromTable(
@@ -260,6 +155,16 @@ class SqlBaseRepoImpl implements SqlBaseRepo {
             ? -1
             : convertType<int>(countData.first.values.first) ?? 0);
     return returnValue;
+  }
+
+  @override
+  Future<List<T>> getListDataRawQuery<T>({
+    required String rawQuery,
+    required T Function(Map<String, dynamic> map) fromMap,
+  }) async {
+    final db = await database;
+    final resultRawQuery = await db.rawQuery(rawQuery);
+    return resultRawQuery.map((e) => fromMap(e)).toList();
   }
 }
 

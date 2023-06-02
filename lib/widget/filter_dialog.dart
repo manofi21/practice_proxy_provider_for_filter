@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 export 'package:provider/provider.dart';
 
-import '../model/dropdown_item.dart';
+import '../entities/dropdown_item.dart';
 import '../provider/filter_provider.dart';
 import '../theme/theme_value.dart';
 import 'base_widget/form_page_title.dart';

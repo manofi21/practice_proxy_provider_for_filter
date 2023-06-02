@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/dropdown_item.dart';
+import '../entities/dropdown_item.dart';
 import '../widget/base_widget/bottom_sheet.dart';
 import '../widget/filter_dialog.dart';
 

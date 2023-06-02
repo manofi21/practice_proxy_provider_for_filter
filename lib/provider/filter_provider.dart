@@ -1,8 +1,8 @@
 // import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
-import '../model/dropdown_item.dart';
+import '../entities/dropdown_item.dart';
 
-class NewSalesFilterProvider extends ChangeNotifier {
+class FilterProvider extends ChangeNotifier {
   bool? _favorite;
   DateTime? _startDate, _endDate;
   DropdownItem? _status;

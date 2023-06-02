@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/dropdown_item.dart';
+import '../entities/dropdown_item.dart';
 import '../theme/theme_value.dart';
 
 class DropdownField extends StatefulWidget {

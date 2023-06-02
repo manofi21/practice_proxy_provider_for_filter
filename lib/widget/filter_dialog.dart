@@ -3,7 +3,7 @@ import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 export 'package:provider/provider.dart';
 
 import '../model/dropdown_item.dart';
-import '../provider/sales_filter_provider.dart';
+import '../provider/filter_provider.dart';
 import '../theme/theme_value.dart';
 import 'base_widget/form_page_title.dart';
 import 'dropdown_field.dart';
@@ -18,7 +18,7 @@ class SalesSiFilterDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final salesFilter = context.watch<NewSalesFilterProvider>();
+    final salesFilter = context.watch<FilterProvider>();
     final listFilterDate = [
       "Sales Last Update - Start",
       '',

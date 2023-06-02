@@ -19,6 +19,7 @@ class WatchingModelV1 {
   });
 
   static const String table = "watching_table";
+  static const String keyidtable = "id_table";
   static const String keyid = "id";
   static const String keyname = "name";
   static const String keyfavorite = "favorite";

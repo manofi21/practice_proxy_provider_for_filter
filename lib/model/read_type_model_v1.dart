@@ -20,7 +20,7 @@ class ReadTypeModelV1 {
       '''
         create table $table 
         (
-          no text primary key AUTOINCREMENT not null,
+          no integer primary key AUTOINCREMENT not null,
           $keyid text not null,
           $keynametype text not null
         )

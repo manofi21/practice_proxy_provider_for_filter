@@ -30,7 +30,7 @@ class ReadingModelV1 {
       '''
         create table $table 
         (
-          $keyid text primary key AUTOINCREMENT not null,
+          $keyid integer primary key AUTOINCREMENT not null,
           $keyname text not null,
           $keyfavorite integer not null,
           $keyidtype integer not null,

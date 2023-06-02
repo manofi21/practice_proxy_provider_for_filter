@@ -4,14 +4,14 @@ import 'package:sqflite/sqflite.dart';
 import '../utils/convert_type.dart';
 
 class WatchingModelV1 {
-  final int id;
+  final int? id;
   final String name;
   final int isFavorite;
-  final int idTypeWatch;
-  final int idStatusWatch;
+  final String idTypeWatch;
+  final String idStatusWatch;
 
   const WatchingModelV1({
-    required this.id,
+    this.id,
     required this.name,
     required this.isFavorite,
     required this.idTypeWatch,
@@ -30,11 +30,11 @@ class WatchingModelV1 {
       '''
         create table $table 
         (
-          $keyid text primary key AUTOINCREMENT not null,
+          $keyid integer primary key AUTOINCREMENT not null,
           $keyname text not null,
           $keyfavorite integer not null,
-          $keyidtype integer not null,
-          $keyidstatus integer not null
+          $keyidtype text not null,
+          $keyidstatus text not null
         )
       ''',
     );
@@ -55,8 +55,8 @@ class WatchingModelV1 {
       id: convertType<int>(map[keyid]) ?? 0,
       name: convertType<String>(map[keyname]) ?? '',
       isFavorite: convertType<int>(map[keyfavorite]) ?? 0,
-      idTypeWatch: convertType<int>(map[keyidtype]) ?? 0,
-      idStatusWatch: convertType<int>(map[keyidstatus]) ?? 0,
+      idTypeWatch: convertType<String>(map[keyidtype]) ?? '',
+      idStatusWatch: convertType<String>(map[keyidstatus]) ?? '',
     );
   }
 }

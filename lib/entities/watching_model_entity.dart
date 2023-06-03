@@ -3,21 +3,24 @@ import 'package:proxy_provider_for_filter/utils/convert_type.dart';
 
 import '../model/watch_status_model_v1.dart';
 import '../model/watching_model_v1.dart';
+import 'base_model_entity.dart';
 
-class WatchingModelEntity {
-  final int id;
-  final String name;
-  final bool isFavorite;
+class WatchingModelEntity extends BaseModelEntity{
   final String typeWatch;
   final String statusWatch;
 
   const WatchingModelEntity({
-    required this.id,
-    required this.name,
-    required this.isFavorite,
+    required int id,
+    required String name,
+    required bool isFavorite,
     required this.typeWatch,
     required this.statusWatch,
-  });
+  }): super(
+            id: id,
+            name: name,
+            isFavorite: isFavorite,
+            typeTitleName: typeWatch,
+            statusTitleName: statusWatch);
 
   WatchingModelEntity copyWith({
     int? id,
@@ -36,14 +39,14 @@ class WatchingModelEntity {
   }
 
   @override
-  bool operator ==(covariant WatchingModelEntity other) {
+  bool operator ==(covariant BaseModelEntity other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
         other.name == name &&
         other.isFavorite == isFavorite &&
-        other.typeWatch == typeWatch &&
-        other.statusWatch == statusWatch;
+        other.typeTitleName == typeWatch &&
+        other.statusTitleName == statusWatch;
   }
 
   @override
@@ -51,8 +54,8 @@ class WatchingModelEntity {
     return id.hashCode ^
         name.hashCode ^
         isFavorite.hashCode ^
-        typeWatch.hashCode ^
-        statusWatch.hashCode;
+        typeTitleName.hashCode ^
+        statusTitleName.hashCode;
   }
 
   @override

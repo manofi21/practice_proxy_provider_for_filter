@@ -1,17 +1,21 @@
-class ReadingModelEntity {
-  final int id;
-  final String name;
-  final bool isFavorite;
+import 'base_model_entity.dart';
+
+class ReadingModelEntity extends BaseModelEntity{
   final String typeRead;
   final String statusRead;
 
   const ReadingModelEntity({
-    required this.id,
-    required this.name,
-    required this.isFavorite,
+    required int id,
+    required String name,
+    required bool isFavorite,
     required this.typeRead,
     required this.statusRead,
-  });
+  }): super(
+            id: id,
+            name: name,
+            isFavorite: isFavorite,
+            typeTitleName: typeRead,
+            statusTitleName: statusRead);
 
   ReadingModelEntity copyWith({
     int? id,
@@ -30,14 +34,14 @@ class ReadingModelEntity {
   }
 
   @override
-  bool operator ==(covariant ReadingModelEntity other) {
+  bool operator ==(covariant BaseModelEntity other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
         other.name == name &&
         other.isFavorite == isFavorite &&
-        other.typeRead == typeRead &&
-        other.statusRead == statusRead;
+        other.typeTitleName == typeTitleName &&
+        other.statusTitleName == statusTitleName;
   }
 
   @override
@@ -45,8 +49,8 @@ class ReadingModelEntity {
     return id.hashCode ^
         name.hashCode ^
         isFavorite.hashCode ^
-        typeRead.hashCode ^
-        statusRead.hashCode;
+        typeTitleName.hashCode ^
+        statusTitleName.hashCode;
   }
 
   @override

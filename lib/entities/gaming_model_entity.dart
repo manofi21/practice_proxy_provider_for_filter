@@ -1,17 +1,41 @@
-class GamingModelEntity {
-  final int id;
-  final String name;
-  final bool isFavorite;
+import 'base_model_entity.dart';
+
+class GamingModelEntity extends BaseModelEntity {
   final String typeGame;
   final String statusGame;
 
   const GamingModelEntity({
-    required this.id,
-    required this.name,
-    required this.isFavorite,
+    required int id,
+    required String name,
+    required bool isFavorite,
     required this.typeGame,
     required this.statusGame,
-  });
+  }) : super(
+            id: id,
+            name: name,
+            isFavorite: isFavorite,
+            typeTitleName: typeGame,
+            statusTitleName: statusGame);
+
+  @override
+  bool operator ==(covariant BaseModelEntity other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.name == name &&
+        other.isFavorite == isFavorite &&
+        other.typeTitleName == typeTitleName &&
+        other.statusTitleName == statusTitleName;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        isFavorite.hashCode ^
+        typeTitleName.hashCode ^
+        statusTitleName.hashCode;
+  }
 
   GamingModelEntity copyWith({
     int? id,
@@ -30,27 +54,6 @@ class GamingModelEntity {
   }
 
   @override
-  bool operator ==(covariant GamingModelEntity other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.name == name &&
-        other.isFavorite == isFavorite &&
-        other.typeGame == typeGame &&
-        other.statusGame == statusGame;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        isFavorite.hashCode ^
-        typeGame.hashCode ^
-        statusGame.hashCode;
-  }
-
-  @override
-  String toString() {
-    return 'GamingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeGame: $typeGame, statusGame: $statusGame)';
-  }
+  String toString() =>
+      'GamingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeGame: $typeGame, statusGame: $statusGame)';
 }

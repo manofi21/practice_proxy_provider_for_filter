@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:proxy_provider_for_filter/provider/filter_provider.dart';
+import 'package:proxy_provider_for_filter/view/dashboard_view.dart';
+import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
+
+import 'provider/gaming_provider.dart';
+import 'provider/reading_provider.dart';
+import 'provider/watching_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +31,23 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (create) => FilterProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (create) => WatchingProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (create) => ReadingProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (create) => GamingProvider(),
+          )
+        ],
+        child: const DashboardView(),
+      ),
     );
   }
 }

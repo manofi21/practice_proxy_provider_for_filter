@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 
 import '../provider/base_provider.dart';
+import '../utils/get_name_of_title.dart';
+import '../widget/tile_list_card_widget.dart';
 
 class TabbarHobbyView<FP extends BaseProvider> extends StatefulWidget {
   const TabbarHobbyView({Key? key}) : super(key: key);
@@ -34,7 +36,10 @@ class _TabbarHobbyViewState<FP extends BaseProvider>
           child: Column(
             children: value.getListValue
                 .map(
-                  (e) => Text(e.name),
+                  (e) => TileListCardWidget(
+                    nameOfTitle: getNameOfTitle(value),
+                    baseModelEntity: e,
+                  ),
                 )
                 .toList(),
           ),

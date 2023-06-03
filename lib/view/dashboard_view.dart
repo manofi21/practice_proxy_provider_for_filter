@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:proxy_provider_for_filter/provider/gaming_provider.dart';
+import 'package:proxy_provider_for_filter/view/tabbar_hobby_view.dart';
 
+import '../provider/reading_provider.dart';
+import '../provider/watching_provider.dart';
 import '../theme/theme_value.dart';
 
 class DashboardView extends StatefulWidget {
@@ -11,27 +15,27 @@ class DashboardView extends StatefulWidget {
 
 const tabTitleSales = [
   Tab(text: "Watching"),
-  Tab(text: "Reading"),
-  Tab(text: "Gaming"),
+  // Tab(text: "Reading"),
+  // Tab(text: "Gaming"),
 ];
 
 class _DashboardViewState extends State<DashboardView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  var _currentIndex = 0;
+  // var _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 5,
+      length: tabTitleSales.length,
       vsync: this,
     );
-    _tabController.addListener(() {
-      setState(() {
-        _currentIndex = _tabController.index;
-      });
-    });
+    // _tabController.addListener(() {
+    //   setState(() {
+    //     _currentIndex = _tabController.index;
+    //   });
+    // });
   }
 
   @override
@@ -47,20 +51,22 @@ class _DashboardViewState extends State<DashboardView>
                 controller: _tabController,
                 indicatorWeight: 3,
                 isScrollable: true,
-                labelColor: Theme.of(context).primaryColor,
+                // labelColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: const Color(disabledColorValue),
                 tabs: tabTitleSales,
               ),
             ),
           )),
       body: Padding(
-        padding: const EdgeInsets.only(
-          top: 113,
-        ),
+        padding: const EdgeInsets.only(top: 20),
         child: TabBarView(
           controller: _tabController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [],
+          children: const [
+            TabbarHobbyView<WatchingProvider>(),
+            TabbarHobbyView<ReadingProvider>(),
+            TabbarHobbyView<GamingProvider>(),
+          ],
         ),
       ),
     );

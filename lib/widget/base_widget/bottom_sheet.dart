@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../theme/theme_value.dart';
 
 Future<Object?> showBaseBottomSheet({
-  required BuildContext context,
+  required BuildContext currentcontext,
   required Widget Function(BuildContext context) builder,
   EdgeInsetsGeometry padding = const EdgeInsets.all(sizeL),
   bool isDismissible = true,
 }) async {
   return showModalBottomSheet(
-    context: context,
+    context: currentcontext,
     elevation: 10,
     isScrollControlled: true,
     isDismissible: isDismissible,
@@ -18,10 +18,10 @@ Future<Object?> showBaseBottomSheet({
         top: Radius.circular(borderRadiusValue),
       ),
     ),
-    builder: (context) {
+    builder: (_) {
       return Padding(
         padding: padding,
-        child: builder(context),
+        child: builder(currentcontext),
       );
     },
   );

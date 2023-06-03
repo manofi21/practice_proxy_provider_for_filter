@@ -7,6 +7,7 @@ const double sizeML = 25;
 const double sizeL = 30;
 const double borderRadiusValue = 8;
 const double fieldHeight = 45;
+const double bottomButtonHeight = 80;
 const int disabledColorValue = 0xffadb6c1;
 const EdgeInsets formDefaultPadding = EdgeInsets.symmetric(
   horizontal: 15,

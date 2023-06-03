@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/provider/gaming_provider.dart';
 import 'package:proxy_provider_for_filter/view/tabbar_hobby_view.dart';
 
+import '../bottom_sheet/show_bottom_sheet_filter.dart';
 import '../provider/reading_provider.dart';
 import '../provider/watching_provider.dart';
 import '../theme/theme_value.dart';
+import '../utils/tablet_padding.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ const tabTitleSales = [
 class _DashboardViewState extends State<DashboardView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  // var _currentIndex = 0;
+  var _currentIndex = 0;
 
   @override
   void initState() {
@@ -31,15 +33,17 @@ class _DashboardViewState extends State<DashboardView>
       length: tabTitleSales.length,
       vsync: this,
     );
-    // _tabController.addListener(() {
-    //   setState(() {
-    //     _currentIndex = _tabController.index;
-    //   });
-    // });
+    _tabController.addListener(() {
+      setState(() {
+        _currentIndex = _tabController.index;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final paddingHorizontal = getTabletPaddingM(context);
+
     return Scaffold(
       appBar: AppBar(
           title: const Text("Dashboard View"),
@@ -59,13 +63,53 @@ class _DashboardViewState extends State<DashboardView>
           )),
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
-        child: TabBarView(
-          controller: _tabController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            TabbarHobbyView<WatchingProvider>(),
-            TabbarHobbyView<ReadingProvider>(),
-            TabbarHobbyView<GamingProvider>(),
+        child: Stack(
+          children: [
+            TabBarView(
+              controller: _tabController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
+                TabbarHobbyView<WatchingProvider>(),
+                TabbarHobbyView<ReadingProvider>(),
+                TabbarHobbyView<GamingProvider>(),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Card(
+                margin: EdgeInsets.zero,
+                shape: const RoundedRectangleBorder(), // Remove border radius
+                child: SafeArea(
+                  top: false, // Fix padding top of listButtons.
+                  child: Container(
+                    width: double.infinity,
+                    height: bottomButtonHeight,
+                    padding: EdgeInsets.symmetric(
+                      vertical: sizeMS,
+                      horizontal: paddingHorizontal,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Create New"),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                            },
+                            child: const Text("Filter"),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -15,8 +15,8 @@ class DashboardView extends StatefulWidget {
 
 const tabTitleSales = [
   Tab(text: "Watching"),
-  // Tab(text: "Reading"),
-  // Tab(text: "Gaming"),
+  Tab(text: "Reading"),
+  Tab(text: "Gaming"),
 ];
 
 class _DashboardViewState extends State<DashboardView>

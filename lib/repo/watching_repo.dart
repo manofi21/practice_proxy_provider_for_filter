@@ -4,6 +4,7 @@ import '../entities/watching_model_entity.dart';
 import '../model/watch_type_model_v1.dart';
 import '../model/watching_model_v1.dart';
 import '../sql_db/sql_repo.dart';
+import '../utils/convert_maps_to_entity.dart' show convertMapToWatchingEntitiy, keyidtable;
 
 abstract class WatchingRepo {
   Future<List<WatchingModelEntity>> getListWatchingHistory();
@@ -16,8 +17,8 @@ class WatchingRepoImpl implements WatchingRepo {
   Future<List<WatchingModelEntity>> getListWatchingHistory() async {
     final sqlBase = SqlBaseRepoImpl();
     final resultFromQuery = await sqlBase.getListDataRawQuery<WatchingModelEntity>(
-      fromMap: convertMapToEntitiy,
-      rawQuery: "SELECT ${WatchingModelV1.table}.${WatchingModelV1.keyid} as ${WatchingModelV1.keyidtable},* FROM ${WatchingModelV1.table} "
+      fromMap: convertMapToWatchingEntitiy,
+      rawQuery: "SELECT ${WatchingModelV1.table}.${WatchingModelV1.keyid} as $keyidtable,* FROM ${WatchingModelV1.table} "
           "INNER JOIN ${WatchTypeModelV1.table} ON ${WatchingModelV1.table}.${WatchingModelV1.keyidtype} = ${WatchTypeModelV1.table}.${WatchTypeModelV1.keyid} "
           "INNER JOIN ${WatchStatusModelV1.table} ON ${WatchingModelV1.table}.${WatchingModelV1.keyidstatus} = ${WatchStatusModelV1.table}.${WatchStatusModelV1.keyid}",
     );

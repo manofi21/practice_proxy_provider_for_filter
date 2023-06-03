@@ -63,13 +63,3 @@ class WatchingModelEntity extends BaseModelEntity{
     return 'WatchingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeWatch: $typeWatch, statusWatch: $statusWatch)';
   }
 }
-
-WatchingModelEntity convertMapToEntitiy(Map<String, Object?> mapValue){
-  return WatchingModelEntity(
-    id: convertType<int>(mapValue[WatchingModelV1.keyidtable]) ?? 0,
-    isFavorite: convertType<int>(mapValue[WatchingModelV1.keyfavorite]) == 1,
-    name: convertType<String>(mapValue[WatchingModelV1.keyname]) ?? '',
-    statusWatch: convertType<String>(mapValue[WatchStatusModelV1.keynamestatus]) ?? '',
-    typeWatch: convertType<String>(mapValue[WatchTypeModelV1.keynametype]) ?? '',
-  );
-}

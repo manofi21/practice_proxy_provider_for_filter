@@ -1,11 +1,13 @@
+import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
+
 import 'base_model_entity.dart';
 
 class ReadingModelEntity extends BaseModelEntity{
-  final String typeRead;
-  final String statusRead;
+  final DropdownItem typeRead;
+  final DropdownItem statusRead;
 
-  const ReadingModelEntity({
-    required int id,
+  ReadingModelEntity({
+    int? id,
     required String name,
     required bool isFavorite,
     required this.typeRead,
@@ -14,15 +16,15 @@ class ReadingModelEntity extends BaseModelEntity{
             id: id,
             name: name,
             isFavorite: isFavorite,
-            typeTitleName: typeRead,
-            statusTitleName: statusRead);
+            typeDropdown: typeRead,
+            statusDropdown: statusRead);
 
   ReadingModelEntity copyWith({
     int? id,
     String? name,
     bool? isFavorite,
-    String? typeRead,
-    String? statusRead,
+    DropdownItem? typeRead,
+    DropdownItem? statusRead,
   }) {
     return ReadingModelEntity(
       id: id ?? this.id,
@@ -40,8 +42,8 @@ class ReadingModelEntity extends BaseModelEntity{
     return other.id == id &&
         other.name == name &&
         other.isFavorite == isFavorite &&
-        other.typeTitleName == typeTitleName &&
-        other.statusTitleName == statusTitleName;
+        other.typeDropdown == typeDropdown &&
+        other.statusDropdown == statusDropdown;
   }
 
   @override
@@ -49,12 +51,12 @@ class ReadingModelEntity extends BaseModelEntity{
     return id.hashCode ^
         name.hashCode ^
         isFavorite.hashCode ^
-        typeTitleName.hashCode ^
-        statusTitleName.hashCode;
+        typeDropdown.hashCode ^
+        statusDropdown.hashCode;
   }
 
   @override
   String toString() {
-    return 'ReadingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeRead: $typeRead, statusRead: $statusRead)';
+    return 'ReadingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeRead: ${typeRead.title}, statusRead: ${statusRead.title})';
   }
 }

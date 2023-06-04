@@ -1,16 +1,13 @@
-import 'package:proxy_provider_for_filter/model/watch_type_model_v1.dart';
-import 'package:proxy_provider_for_filter/utils/convert_type.dart';
+import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
 
-import '../model/watch_status_model_v1.dart';
-import '../model/watching_model_v1.dart';
 import 'base_model_entity.dart';
 
 class WatchingModelEntity extends BaseModelEntity{
-  final String typeWatch;
-  final String statusWatch;
+  final DropdownItem typeWatch;
+  final DropdownItem statusWatch;
 
-  const WatchingModelEntity({
-    required int id,
+  WatchingModelEntity({
+    int? id,
     required String name,
     required bool isFavorite,
     required this.typeWatch,
@@ -19,15 +16,15 @@ class WatchingModelEntity extends BaseModelEntity{
             id: id,
             name: name,
             isFavorite: isFavorite,
-            typeTitleName: typeWatch,
-            statusTitleName: statusWatch);
+            typeDropdown: typeWatch,
+            statusDropdown: statusWatch);
 
   WatchingModelEntity copyWith({
     int? id,
     String? name,
     bool? isFavorite,
-    String? typeWatch,
-    String? statusWatch,
+    DropdownItem? typeWatch,
+    DropdownItem? statusWatch,
   }) {
     return WatchingModelEntity(
       id: id ?? this.id,
@@ -45,8 +42,8 @@ class WatchingModelEntity extends BaseModelEntity{
     return other.id == id &&
         other.name == name &&
         other.isFavorite == isFavorite &&
-        other.typeTitleName == typeWatch &&
-        other.statusTitleName == statusWatch;
+        other.typeDropdown == typeWatch &&
+        other.statusDropdown == statusWatch;
   }
 
   @override
@@ -54,12 +51,12 @@ class WatchingModelEntity extends BaseModelEntity{
     return id.hashCode ^
         name.hashCode ^
         isFavorite.hashCode ^
-        typeTitleName.hashCode ^
-        statusTitleName.hashCode;
+        typeDropdown.hashCode ^
+        statusDropdown.hashCode;
   }
 
   @override
   String toString() {
-    return 'WatchingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeWatch: $typeWatch, statusWatch: $statusWatch)';
+    return 'WatchingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeWatch: ${typeWatch.title}, statusWatch: ${statusWatch.title})';
   }
 }

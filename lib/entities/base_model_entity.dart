@@ -1,15 +1,17 @@
+import 'dropdown_item.dart';
+
 abstract class BaseModelEntity {
-  final int id;
+  int? id;
   final String name;
   final bool isFavorite;
-  final String typeTitleName;
-  final String statusTitleName;
+  final DropdownItem typeDropdown;
+  final DropdownItem statusDropdown;
 
-  const BaseModelEntity({
-    required this.id,
+  BaseModelEntity({
+    this.id,
     required this.name,
     required this.isFavorite,
-    required this.typeTitleName,
-    required this.statusTitleName,
+    required this.typeDropdown,
+    required this.statusDropdown,
   });
 }

@@ -1,11 +1,12 @@
 import 'base_model_entity.dart';
+import 'dropdown_item.dart';
 
 class GamingModelEntity extends BaseModelEntity {
-  final String typeGame;
-  final String statusGame;
+  final DropdownItem typeGame;
+  final DropdownItem statusGame;
 
-  const GamingModelEntity({
-    required int id,
+  GamingModelEntity({
+    int? id,
     required String name,
     required bool isFavorite,
     required this.typeGame,
@@ -14,8 +15,8 @@ class GamingModelEntity extends BaseModelEntity {
             id: id,
             name: name,
             isFavorite: isFavorite,
-            typeTitleName: typeGame,
-            statusTitleName: statusGame);
+            typeDropdown: typeGame,
+            statusDropdown: statusGame);
 
   @override
   bool operator ==(covariant BaseModelEntity other) {
@@ -24,8 +25,8 @@ class GamingModelEntity extends BaseModelEntity {
     return other.id == id &&
         other.name == name &&
         other.isFavorite == isFavorite &&
-        other.typeTitleName == typeTitleName &&
-        other.statusTitleName == statusTitleName;
+        other.typeDropdown == typeDropdown &&
+        other.statusDropdown == statusDropdown;
   }
 
   @override
@@ -33,16 +34,16 @@ class GamingModelEntity extends BaseModelEntity {
     return id.hashCode ^
         name.hashCode ^
         isFavorite.hashCode ^
-        typeTitleName.hashCode ^
-        statusTitleName.hashCode;
+        typeDropdown.hashCode ^
+        statusDropdown.hashCode;
   }
 
   GamingModelEntity copyWith({
     int? id,
     String? name,
     bool? isFavorite,
-    String? typeGame,
-    String? statusGame,
+    DropdownItem? typeGame,
+    DropdownItem? statusGame,
   }) {
     return GamingModelEntity(
       id: id ?? this.id,
@@ -55,5 +56,5 @@ class GamingModelEntity extends BaseModelEntity {
 
   @override
   String toString() =>
-      'GamingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeGame: $typeGame, statusGame: $statusGame)';
+      'GamingModelEntity(id: $id, name: $name, isFavorite: $isFavorite, typeGame: ${typeGame.title}, statusGame: ${statusGame.title})';
 }

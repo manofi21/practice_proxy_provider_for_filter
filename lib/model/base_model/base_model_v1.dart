@@ -5,11 +5,11 @@ abstract class BaseModelV1 {
   final String idType;
   final String idStatus;
 
-  const BaseModelV1(
+  const BaseModelV1({
     this.id,
-    this.name,
-    this.isFavorite,
-    this.idType,
-    this.idStatus,
-  );
+    required this.name,
+    required this.isFavorite,
+    required this.idType,
+    required this.idStatus,
+  });
 }

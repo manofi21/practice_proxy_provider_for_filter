@@ -12,11 +12,11 @@ class ReadingModelV1 extends BaseModelV1 {
     required String idTypeRead,
     required String idStatusRead,
   }) : super(
-          id,
-          name,
-          isFavorite,
-          idTypeRead,
-          idStatusRead,
+          id: id,
+          name: name,
+          isFavorite: isFavorite,
+          idType: idTypeRead,
+          idStatus: idStatusRead,
         );
 
   static const String table = "reading_table";

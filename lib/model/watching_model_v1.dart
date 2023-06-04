@@ -12,11 +12,11 @@ class WatchingModelV1 extends BaseModelV1 {
     required String idTypeWatch,
     required String idStatusWatch,
   }) : super(
-          id,
-          name,
-          isFavorite,
-          idTypeWatch,
-          idTypeWatch,
+          id: id,
+          name:name,
+          isFavorite:isFavorite,
+          idType:idTypeWatch,
+          idStatus:idStatusWatch,
         );
 
   static const String table = "watching_table";

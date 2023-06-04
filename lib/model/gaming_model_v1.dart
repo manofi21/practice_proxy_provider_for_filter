@@ -12,11 +12,11 @@ class GamingModelV1 extends BaseModelV1 {
     required String idTypeGame,
     required String idStatusGame,
   }) : super(
-          id,
-          name,
-          isFavorite,
-          idTypeGame,
-          idStatusGame,
+          id: id,
+          name: name,
+          isFavorite: isFavorite,
+          idType: idTypeGame,
+          idStatus: idStatusGame,
         );
 
   static const String table = "gaming_table";

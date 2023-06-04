@@ -15,12 +15,32 @@ abstract class BaseProvider extends ChangeNotifier {
     // required void Function(Failure failure) onError,
   });
 
+  Future<void> processAddData({
+    required BuildContext context,
+    required BaseModelEntity inputModel,
+    required void Function(List<BaseModelEntity> listItems) onSuccess,
+    // required void Function(Failure failure) onError,
+  });
+
   Future<void> initData(BuildContext context) async {
     _loading = true;
     notifyListeners();
 
     return processInit(
       context: context,
+      onSuccess: (result) {
+        _getListValue = result;
+        _loading = false;
+
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> addData(BuildContext context, BaseModelEntity inputModel) {
+    return processAddData(
+      context: context,
+      inputModel: inputModel,
       onSuccess: (result) {
         _getListValue = result;
         _loading = false;

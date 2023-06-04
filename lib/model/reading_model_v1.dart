@@ -2,21 +2,22 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../utils/convert_type.dart';
+import 'base_model/base_model_v1.dart';
 
-class ReadingModelV1 {
-  final int id;
-  final String name;
-  final int isFavorite;
-  final int idTypeRead;
-  final int idStatusRead;
-
+class ReadingModelV1 extends BaseModelV1 {
   const ReadingModelV1({
-    required this.id,
-    required this.name,
-    required this.isFavorite,
-    required this.idTypeRead,
-    required this.idStatusRead,
-  });
+    int? id,
+    required String name,
+    required int isFavorite,
+    required String idTypeRead,
+    required String idStatusRead,
+  }) : super(
+          id,
+          name,
+          isFavorite,
+          idTypeRead,
+          idStatusRead,
+        );
 
   static const String table = "reading_table";
   static const String keyid = "id";
@@ -33,8 +34,8 @@ class ReadingModelV1 {
           $keyid integer primary key AUTOINCREMENT not null,
           $keyname text not null,
           $keyfavorite integer not null,
-          $keyidtype integer not null,
-          $keyidstatus integer not null
+          $keyidtype text not null,
+          $keyidstatus text not null
         )
       ''',
     );
@@ -45,8 +46,8 @@ class ReadingModelV1 {
       keyid: id,
       keyname: name,
       keyfavorite: isFavorite,
-      keyidtype: idTypeRead,
-      keyidstatus: idStatusRead,
+      keyidtype: idType,
+      keyidstatus: idStatus,
     };
   }
 
@@ -55,8 +56,8 @@ class ReadingModelV1 {
       id: convertType<int>(map[keyid]) ?? 0,
       name: convertType<String>(map[keyname]) ?? '',
       isFavorite: convertType<int>(map[keyfavorite]) ?? 0,
-      idTypeRead: convertType<int>(map[keyidtype]) ?? 0,
-      idStatusRead: convertType<int>(map[keyidstatus]) ?? 0,
+      idTypeRead: convertType<String>(map[keyidtype]) ?? '',
+      idStatusRead: convertType<String>(map[keyidstatus]) ?? '',
     );
   }
 }

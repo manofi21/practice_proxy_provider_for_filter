@@ -2,21 +2,22 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../utils/convert_type.dart';
+import 'base_model/base_model_v1.dart';
 
-class GamingModelV1 {
-  final int id;
-  final String name;
-  final int isFavorite;
-  final int idTypeGame;
-  final int idStatusGame;
-
-  const GamingModelV1({
-    required this.id,
-    required this.name,
-    required this.isFavorite,
-    required this.idTypeGame,
-    required this.idStatusGame,
-  });
+class GamingModelV1 extends BaseModelV1 {
+  GamingModelV1({
+    int? id,
+    required String name,
+    required int isFavorite,
+    required String idTypeGame,
+    required String idStatusGame,
+  }) : super(
+          id,
+          name,
+          isFavorite,
+          idTypeGame,
+          idStatusGame,
+        );
 
   static const String table = "gaming_table";
   static const String keyid = "id";
@@ -33,8 +34,8 @@ class GamingModelV1 {
           $keyid integer primary key AUTOINCREMENT not null,
           $keyname text not null,
           $keyfavorite integer not null,
-          $keyidtype integer not null,
-          $keyidstatus integer not null
+          $keyidtype text not null,
+          $keyidstatus text not null
         )
       ''',
     );
@@ -45,8 +46,8 @@ class GamingModelV1 {
       keyid: id,
       keyname: name,
       keyfavorite: isFavorite,
-      keyidtype: idTypeGame,
-      keyidstatus: idStatusGame,
+      keyidtype: idType,
+      keyidstatus: idStatus,
     };
   }
 
@@ -55,8 +56,8 @@ class GamingModelV1 {
       id: convertType<int>(map[keyid]) ?? 0,
       name: convertType<String>(map[keyname]) ?? '',
       isFavorite: convertType<int>(map[keyfavorite]) ?? 0,
-      idTypeGame: convertType<int>(map[keyidtype]) ?? 0,
-      idStatusGame: convertType<int>(map[keyidstatus]) ?? 0,
+      idTypeGame: convertType<String>(map[keyidtype]) ?? '',
+      idStatusGame: convertType<String>(map[keyidstatus]) ?? '',
     );
   }
 }

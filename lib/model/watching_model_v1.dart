@@ -2,21 +2,22 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../utils/convert_type.dart';
+import 'base_model/base_model_v1.dart';
 
-class WatchingModelV1 {
-  final int? id;
-  final String name;
-  final int isFavorite;
-  final String idTypeWatch;
-  final String idStatusWatch;
-
+class WatchingModelV1 extends BaseModelV1 {
   const WatchingModelV1({
-    this.id,
-    required this.name,
-    required this.isFavorite,
-    required this.idTypeWatch,
-    required this.idStatusWatch,
-  });
+    int? id,
+    required String name,
+    required int isFavorite,
+    required String idTypeWatch,
+    required String idStatusWatch,
+  }) : super(
+          id,
+          name,
+          isFavorite,
+          idTypeWatch,
+          idTypeWatch,
+        );
 
   static const String table = "watching_table";
   static const String keyid = "id";
@@ -45,8 +46,8 @@ class WatchingModelV1 {
       keyid: id,
       keyname: name,
       keyfavorite: isFavorite,
-      keyidtype: idTypeWatch,
-      keyidstatus: idStatusWatch,
+      keyidtype: idType,
+      keyidstatus: idStatus,
     };
   }
 

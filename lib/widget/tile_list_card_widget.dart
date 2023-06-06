@@ -62,8 +62,8 @@ class TileListCardWidget extends StatelessWidget {
           children: [
             Text(nameOfTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
             nameTitle(baseModelEntity.name, baseModelEntity.isFavorite),
-            childItem("Category", baseModelEntity.typeTitleName),
-            childItem("Status", baseModelEntity.statusTitleName),
+            childItem("Category", baseModelEntity.typeDropdown.title ?? ''),
+            childItem("Status", baseModelEntity.statusDropdown.title ?? ''),
           ],
         ),
       ),

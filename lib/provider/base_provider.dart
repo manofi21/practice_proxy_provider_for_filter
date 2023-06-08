@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../entities/base_dropdown_return.dart';
 import '../entities/base_model_entity.dart';
 
 abstract class BaseProvider extends ChangeNotifier {
@@ -14,6 +14,8 @@ abstract class BaseProvider extends ChangeNotifier {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
     // required void Function(Failure failure) onError,
   });
+
+  Future<BaseDropdownReturn> processLoadDropdownData();
 
   Future<void> processAddData({
     required BuildContext context,
@@ -48,5 +50,17 @@ abstract class BaseProvider extends ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  Future<BaseDropdownReturn> loadDropdown() async {
+    _loading = true;
+    notifyListeners();
+
+    final getValueDropdown = await processLoadDropdownData();
+
+    _loading = false;
+    notifyListeners();
+
+    return getValueDropdown;
   }
 }

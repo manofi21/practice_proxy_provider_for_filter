@@ -51,16 +51,4 @@ abstract class BaseProvider extends ChangeNotifier {
       },
     );
   }
-
-  Future<BaseDropdownReturn> loadDropdown() async {
-    _loading = true;
-    notifyListeners();
-
-    final getValueDropdown = await processLoadDropdownData();
-
-    _loading = false;
-    notifyListeners();
-
-    return getValueDropdown;
-  }
 }

@@ -35,7 +35,7 @@ Future<void> initTables({
       // init Watch Type value
       await txn.insert(
         WatchTypeModelV1.table,
-        const WatchTypeModelV1(id: "WT001", nameType: "Moview").toMap(),
+        const WatchTypeModelV1(id: "WT001", nameType: "Movie").toMap(),
       );
       await txn.insert(
         WatchTypeModelV1.table,

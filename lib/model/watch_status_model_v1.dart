@@ -35,7 +35,7 @@ class WatchStatusModelV1 {
     };
   }
 
-  factory WatchStatusModelV1.fromMap(Map<String, dynamic> map) {
+  static WatchStatusModelV1 fromMap(Map<String, dynamic> map) {
     return WatchStatusModelV1(
       id: convertType<String>(map[keyid]) ?? '',
       nameStatus: convertType<String>(map[keynamestatus]) ?? '',

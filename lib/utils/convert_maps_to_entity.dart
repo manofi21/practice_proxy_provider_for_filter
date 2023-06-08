@@ -18,16 +18,20 @@ import 'convert_type.dart';
 const String keyidtable = "id_table";
 
 WatchingModelEntity convertMapToWatchingEntitiy(Map<String, Object?> mapValue) {
+  print('resultFromQuery : $mapValue');
   return WatchingModelEntity(
     id: convertType<int>(mapValue[keyidtable]) ?? 0,
     isFavorite: convertType<int>(mapValue[WatchingModelV1.keyfavorite]) == 1,
     name: convertType<String>(mapValue[WatchingModelV1.keyname]) ?? '',
     statusWatch: DropdownItem(
-      key:
+      key: convertType<String>(mapValue[WatchingModelV1.keyidstatus]) ?? '',
+      title:
           convertType<String>(mapValue[WatchStatusModelV1.keynamestatus]) ?? '',
+          
     ),
     typeWatch: DropdownItem(
-      key: convertType<String>(mapValue[WatchTypeModelV1.keynametype]) ?? '',
+      key: convertType<String>(mapValue[WatchingModelV1.keyidtype]) ?? '',
+      title: convertType<String>(mapValue[WatchTypeModelV1.keynametype]) ?? '',
     ),
   );
 }
@@ -38,10 +42,12 @@ ReadingModelEntity convertMapToReadingEntitiy(Map<String, Object?> mapValue) {
     isFavorite: convertType<int>(mapValue[ReadingModelV1.keyfavorite]) == 1,
     name: convertType<String>(mapValue[ReadingModelV1.keyname]) ?? '',
     statusRead: DropdownItem(
-      key: convertType<String>(mapValue[ReadStatusModelV1.keynamestatus]) ?? '',
+      key: convertType<String>(mapValue[ReadingModelV1.keyidstatus]) ?? '',
+      title: convertType<String>(mapValue[ReadStatusModelV1.keynamestatus]) ?? '',
     ),
     typeRead: DropdownItem(
-      key: convertType<String>(mapValue[ReadTypeModelV1.keynametype]) ?? '',
+      key: convertType<String>(mapValue[ReadingModelV1.keyidtype]) ?? '',
+      title: convertType<String>(mapValue[ReadTypeModelV1.keynametype]) ?? '',
     ),
   );
 }
@@ -52,10 +58,12 @@ GamingModelEntity convertMapToGamingEntitiy(Map<String, Object?> mapValue) {
     isFavorite: convertType<int>(mapValue[GamingModelV1.keyfavorite]) == 1,
     name: convertType<String>(mapValue[GamingModelV1.keyname]) ?? '',
     statusGame: DropdownItem(
-      key: convertType<String>(mapValue[GameStatusModelV1.keynamestatus]) ?? '',
+      key: convertType<String>(mapValue[GamingModelV1.keyidstatus]) ?? '',
+      title: convertType<String>(mapValue[GameStatusModelV1.keynamestatus]) ?? '',
     ),
     typeGame: DropdownItem(
-      key: convertType<String>(mapValue[GameTypeModelV1.keynametype]) ?? '',
+      key: convertType<String>(mapValue[GamingModelV1.keyidtype]) ?? '',
+      title: convertType<String>(mapValue[GameTypeModelV1.keynametype]) ?? '',
     ),
   );
 }

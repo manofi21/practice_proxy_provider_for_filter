@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:proxy_provider_for_filter/entities/base_dropdown_return.dart';
 import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 
+import '../entities/dropdown_item.dart';
 import '../entities/reading_model_entity.dart';
 import '../model/reading_model_v1.dart';
 import '../repo/reading_repo.dart';
@@ -12,8 +14,8 @@ class ReadingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = ReadingRepoImpl();
-    final listResult = await watchRepoImpl.getListReadingHistory();
+    final readhRepoImpl = ReadingRepoImpl();
+    final listResult = await readhRepoImpl.getListReadingHistory();
     onSuccess(listResult);
   }
 
@@ -23,7 +25,7 @@ class ReadingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = ReadingRepoImpl();
+    final readhRepoImpl = ReadingRepoImpl();
     if (inputModel is ReadingModelEntity) {
       final readingInputModel = ReadingModelV1(
         name: inputModel.name,
@@ -31,10 +33,25 @@ class ReadingProvider extends BaseProvider {
         idStatusRead: inputModel.statusRead.key,
         idTypeRead: inputModel.typeRead.key,
       );
-      await watchRepoImpl.addReadingHistory(readingInputModel);
+      await readhRepoImpl.addReadingHistory(readingInputModel);
     }
 
-    final listResult = await watchRepoImpl.getListReadingHistory();
+    final listResult = await readhRepoImpl.getListReadingHistory();
     onSuccess(listResult);
+  }
+
+  @override
+  Future<BaseDropdownReturn> processLoadDropdownData() async {
+    final readingRepoImpl = ReadingRepoImpl();
+    final listStatus = await readingRepoImpl.getListReadStatusModel();
+    final listType = await readingRepoImpl.getListReadTypeModel();
+    return BaseDropdownReturn(
+      listStatus: listStatus
+          .map((e) => DropdownItem(key: e.id, title: e.nameStatus))
+          .toList(),
+      listType: listType
+          .map((e) => DropdownItem(key: e.id, title: e.nameType))
+          .toList(),
+    );
   }
 }

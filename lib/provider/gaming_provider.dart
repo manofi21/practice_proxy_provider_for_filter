@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:proxy_provider_for_filter/entities/base_dropdown_return.dart';
 import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 import 'package:proxy_provider_for_filter/entities/gaming_model_entity.dart';
 import 'package:proxy_provider_for_filter/model/gaming_model_v1.dart';
 
+import '../entities/dropdown_item.dart';
 import '../repo/gaming_repo.dart';
 import 'base_provider.dart';
 
@@ -36,5 +38,20 @@ class GamingProvider extends BaseProvider {
 
     final listResult = await watchRepoImpl.getListGamingHistory();
     onSuccess(listResult);
+  }
+
+  @override
+  Future<BaseDropdownReturn> processLoadDropdownData() async {
+    final readingRepoImpl = GamingRepoImpl();
+    final listStatus = await readingRepoImpl.getListGameStatusModel();
+    final listType = await readingRepoImpl.getListGameTypeModel();
+    return BaseDropdownReturn(
+      listStatus: listStatus
+          .map((e) => DropdownItem(key: e.id, title: e.nameStatus))
+          .toList(),
+      listType: listType
+          .map((e) => DropdownItem(key: e.id, title: e.nameType))
+          .toList(),
+    );
   }
 }

@@ -21,43 +21,50 @@ class FilterDateButton extends StatefulWidget {
 }
 
 class _FilterDateButtonState extends State<FilterDateButton> {
+  String? dateString;
+  DateTime? initialDate;
+  late TextEditingController dateController;
+
   @override
-  Widget build(BuildContext context) {
-    String? dateString;
+  void initState() {
+    super.initState();
     var initialDate = widget.initialDate;
     if (initialDate != null) {
       dateString = formatDateTime(
           dateTime: initialDate,
           formatPattern: FormatPattern.shortDateFullYear);
     }
+    dateController = TextEditingController(text: dateString);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: sizeS, bottom: sizeS),
-          child: Text(widget.title),
-        ),
-        DateFormField(
-          controller: TextEditingController(text: dateString),
-          useFormFieldContainer: true,
-          title: '',
-          useTrailingButton: false,
-          firstDate: firstDate,
-          lastDate: today,
-          initialDate: initialDate,
-          suffixIcon: const Icon(
-            Icons.keyboard_arrow_down,
-          ),
-          onChanged: (value) {
-            setState(() {
-              initialDate = value;
-            });
-            widget.onDateTimeChange(value);
-          },
-        )
-      ],
-    );
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: sizeS, bottom: sizeS),
+              child: Text(widget.title),
+            ),
+            DateFormField(
+              useFormFieldContainer: true,
+              title: '',
+              useTrailingButton: false,
+              firstDate: firstDate,
+              lastDate: today,
+              initialDate: initialDate,
+              suffixIcon: const Icon(
+                Icons.keyboard_arrow_down,
+              ),
+              onChanged: (value) {
+                setState(() {
+                  initialDate = value;
+                });
+                widget.onDateTimeChange(value);
+              },
+            )
+          ],
+        );
   }
 }

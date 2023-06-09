@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../../theme/theme_value.dart';
 import '../../utils/format_date_time_function.dart';
 
-class DateFormField extends StatelessWidget {
+class DateFormField extends StatefulWidget {
   const DateFormField({
     Key? key,
-    required this.controller,
     this.enabled = true,
     this.validator,
     this.useFormFieldContainer = false,
@@ -22,8 +21,6 @@ class DateFormField extends StatelessWidget {
     this.errorStyle,
     this.suffixIcon,
   }) : super(key: key);
-
-  final TextEditingController controller;
 
   final String? Function(String?)? validator;
 
@@ -53,17 +50,23 @@ class DateFormField extends StatelessWidget {
 
   final Widget? suffixIcon;
 
+  @override
+  State<DateFormField> createState() => _DateFormFieldState();
+}
+
+class _DateFormFieldState extends State<DateFormField> {
+  late TextEditingController dateTextController;
   Future<void> _onDateChanged(BuildContext context) async {
-    final firstDate = this.firstDate ??
+    final firstDate = widget.firstDate ??
         DateTime.now().subtract(
           const Duration(days: 90),
         );
-    final lastDate = this.lastDate ??
+    final lastDate = widget.lastDate ??
         DateTime.now().add(
           const Duration(days: 90),
         );
 
-    final currentSelectedDate = initialDate ?? DateTime.now();
+    final currentSelectedDate = widget.initialDate ?? DateTime.now();
 
     final dateTime = await showDatePicker(
       context: context,
@@ -72,39 +75,58 @@ class DateFormField extends StatelessWidget {
       lastDate: lastDate,
     );
     if (dateTime != null) {
-      controller.text = formatDateTimeStandart(
+      dateTextController.text = formatDateTimeStandart(
         dateTime: dateTime,
         onlyDate: true,
       );
     }
 
-    final onChanged = this.onChanged;
+    final onChanged = widget.onChanged;
     if (onChanged != null) {
       onChanged(dateTime);
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final dateFormField = TextFormField(
-      controller: controller,
-      autovalidateMode: autovalidateMode,
-      showCursor: false,
-      readOnly: true,
-      enabled: enabled,
-      onTap: () => _onDateChanged(context),
-      validator: validator,
-      decoration: InputDecoration(
-        hintText: hint ?? "Please Select",
-        contentPadding: formDefaultPadding,
-        suffixIcon: suffixIcon,
-        errorStyle: errorStyle ??
-            TextStyle(
-              color: Theme.of(context).colorScheme.error, // or any other color
-            ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    final initialDate = widget.initialDate != null
+        ? formatDateTimeStandart(dateTime: widget.initialDate!, onlyDate: true)
+        : '';
+    dateTextController = TextEditingController(text: initialDate);
+  }
 
-    return dateFormField;
+  @override
+  Widget build(BuildContext context) {
+    return FormField(
+      initialValue: false,
+      enabled: true,
+      builder: (FormFieldState<bool> field) {
+        final dateFormField = TextFormField(
+          controller: dateTextController,
+          autovalidateMode: widget.autovalidateMode,
+          showCursor: false,
+          readOnly: true,
+          enabled: widget.enabled,
+          onTap: () async {
+            await _onDateChanged(context);
+            field.didChange(true);
+          },
+          validator: widget.validator,
+          decoration: InputDecoration(
+            hintText: widget.hint ?? "Please Select",
+            contentPadding: formDefaultPadding,
+            suffixIcon: widget.suffixIcon,
+            errorStyle: widget.errorStyle ??
+                TextStyle(
+                  color:
+                      Theme.of(context).colorScheme.error, // or any other color
+                ),
+          ),
+        );
+
+        return dateFormField;
+      },
+    );
   }
 }

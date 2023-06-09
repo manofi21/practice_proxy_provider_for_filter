@@ -9,11 +9,9 @@ Future<void> showFilterSheet(BuildContext context) async {
   showBaseBottomSheet(
     currentcontext: context,
     padding: const EdgeInsets.all(0),
-    builder: (context) {
-      return filterDialog(
-        context,
-        resultStatusList,
-      );
-    },
+    builder: filterDialog(
+      context,
+      resultStatusList,
+    ),
   );
 }

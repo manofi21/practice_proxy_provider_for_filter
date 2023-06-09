@@ -12,34 +12,20 @@ Future<void> showBottomSheetAddData(
 }) async {
   late Widget dialogWidget;
   if (index == 0) {
-    dialogWidget = addDataDialog<WatchingProvider>(
-      context,
-      listStatus: [],
-      listType: [],
-    );
+    dialogWidget = addDataDialog<WatchingProvider>(context);
   }
 
   if (index == 1) {
-    dialogWidget = addDataDialog<ReadingProvider>(
-      context,
-      listStatus: [],
-      listType: [],
-    );
+    dialogWidget = addDataDialog<ReadingProvider>(context);
   }
 
   if (index == 2) {
-    dialogWidget = addDataDialog<GamingProvider>(
-      context,
-      listStatus: [],
-      listType: [],
-    );
+    dialogWidget = addDataDialog<GamingProvider>(context);
   }
 
   showBaseBottomSheet(
     currentcontext: context,
     padding: const EdgeInsets.all(0),
-    builder: (context) {
-      return dialogWidget;
-    },
+    builder: dialogWidget,
   );
 }

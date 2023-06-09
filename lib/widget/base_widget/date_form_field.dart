@@ -16,13 +16,12 @@ class DateFormField extends StatefulWidget {
     this.onChanged,
     this.hint,
     this.useTrailingButton = true,
-    this.autovalidateMode,
     // this.formatPattern,
     this.errorStyle,
     this.suffixIcon,
   }) : super(key: key);
 
-  final String? Function(String?)? validator;
+  final String? Function(DateTime?)? validator;
 
   final bool useFormFieldContainer;
 
@@ -42,7 +41,6 @@ class DateFormField extends StatefulWidget {
 
   final bool useTrailingButton;
 
-  final AutovalidateMode? autovalidateMode;
 
   // final FormatPattern? formatPattern;
 
@@ -56,6 +54,8 @@ class DateFormField extends StatefulWidget {
 
 class _DateFormFieldState extends State<DateFormField> {
   late TextEditingController dateTextController;
+  DateTime? currentSelectedDate;
+
   Future<void> _onDateChanged(BuildContext context) async {
     final firstDate = widget.firstDate ??
         DateTime.now().subtract(
@@ -66,11 +66,11 @@ class _DateFormFieldState extends State<DateFormField> {
           const Duration(days: 90),
         );
 
-    final currentSelectedDate = widget.initialDate ?? DateTime.now();
+    currentSelectedDate = currentSelectedDate ?? DateTime.now();
 
     final dateTime = await showDatePicker(
       context: context,
-      initialDate: currentSelectedDate,
+      initialDate: currentSelectedDate!,
       firstDate: firstDate,
       lastDate: lastDate,
     );
@@ -82,6 +82,7 @@ class _DateFormFieldState extends State<DateFormField> {
     }
 
     final onChanged = widget.onChanged;
+    currentSelectedDate = dateTime;
     if (onChanged != null) {
       onChanged(dateTime);
     }
@@ -93,6 +94,7 @@ class _DateFormFieldState extends State<DateFormField> {
     final initialDate = widget.initialDate != null
         ? formatDateTimeStandart(dateTime: widget.initialDate!, onlyDate: true)
         : '';
+    currentSelectedDate = widget.initialDate ?? DateTime.now();
     dateTextController = TextEditingController(text: initialDate);
   }
 
@@ -104,7 +106,7 @@ class _DateFormFieldState extends State<DateFormField> {
       builder: (FormFieldState<bool> field) {
         final dateFormField = TextFormField(
           controller: dateTextController,
-          autovalidateMode: widget.autovalidateMode,
+          autovalidateMode: AutovalidateMode.always,
           showCursor: false,
           readOnly: true,
           enabled: widget.enabled,
@@ -112,7 +114,7 @@ class _DateFormFieldState extends State<DateFormField> {
             await _onDateChanged(context);
             field.didChange(true);
           },
-          validator: widget.validator,
+          validator: (_) => widget.validator != null ? widget.validator!(currentSelectedDate) : null,
           decoration: InputDecoration(
             hintText: widget.hint ?? "Please Select",
             contentPadding: formDefaultPadding,

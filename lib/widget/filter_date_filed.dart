@@ -10,11 +10,13 @@ class FilterDateButton extends StatefulWidget {
     required this.title,
     required this.initialDate,
     required this.onDateTimeChange,
+    this.validator,
   }) : super(key: key);
 
   final String title;
   final DateTime? initialDate;
   final void Function(DateTime?) onDateTimeChange;
+  final String? Function(DateTime?)? validator;
 
   @override
   State<FilterDateButton> createState() => _FilterDateButtonState();
@@ -22,21 +24,7 @@ class FilterDateButton extends StatefulWidget {
 
 class _FilterDateButtonState extends State<FilterDateButton> {
   String? dateString;
-  DateTime? initialDate;
-  late TextEditingController dateController;
-
-  @override
-  void initState() {
-    super.initState();
-    var initialDate = widget.initialDate;
-    if (initialDate != null) {
-      dateString = formatDateTime(
-          dateTime: initialDate,
-          formatPattern: FormatPattern.shortDateFullYear);
-    }
-    dateController = TextEditingController(text: dateString);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -53,14 +41,12 @@ class _FilterDateButtonState extends State<FilterDateButton> {
               useTrailingButton: false,
               firstDate: firstDate,
               lastDate: today,
-              initialDate: initialDate,
+              initialDate: widget.initialDate,
               suffixIcon: const Icon(
                 Icons.keyboard_arrow_down,
               ),
+              validator: widget.validator,
               onChanged: (value) {
-                setState(() {
-                  initialDate = value;
-                });
                 widget.onDateTimeChange(value);
               },
             )

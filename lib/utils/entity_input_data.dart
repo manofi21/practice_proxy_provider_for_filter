@@ -15,7 +15,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
   required DropdownItem statusDropdown,
   required DropdownItem typeDropdown,
 }) {
-  if (BP is GamingProvider) {
+  if (BP == GamingProvider) {
     return GamingModelEntity(
       id: 0,
       name: name,
@@ -25,7 +25,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
     );
   }
 
-  if (BP is WatchingProvider) {
+  if (BP == WatchingProvider) {
     return WatchingModelEntity(
       id: 0,
       name: name,
@@ -35,7 +35,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
     );
   }
 
-    if (BP is ReadingProvider) {
+    if (BP == ReadingProvider) {
     return ReadingModelEntity(
       id: 0,
       name: name,

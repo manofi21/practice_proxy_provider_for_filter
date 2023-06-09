@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/provider/gaming_provider.dart';
 import 'package:proxy_provider_for_filter/view/tabbar_hobby_view.dart';
 
-import '../bottom_sheet/show_bottom_sheet_filter.dart';
+import '../bottom_sheet/show_bottom_sheet_add_data.dart';
 import '../provider/reading_provider.dart';
 import '../provider/watching_provider.dart';
 import '../theme/theme_value.dart';
@@ -43,7 +43,6 @@ class _DashboardViewState extends State<DashboardView>
   @override
   Widget build(BuildContext context) {
     final paddingHorizontal = getTabletPaddingM(context);
-
     return Scaffold(
       appBar: AppBar(
           title: const Text("Dashboard View"),
@@ -92,15 +91,17 @@ class _DashboardViewState extends State<DashboardView>
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showBottomSheetAddData(context,
+                                  index: _currentIndex);
+                            },
                             child: const Text("Create New"),
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                             child: const Text("Filter"),
                           ),
                         )

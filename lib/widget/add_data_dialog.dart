@@ -33,7 +33,7 @@ Widget addDataDialog<BP extends BaseProvider>(BuildContext context) {
         return AddDataDialogPage<BP>(
           nameTitle: nameTitle,
           onAddData: (dataEntity) async {
-            baseProvider.addData(context, dataEntity);
+            return baseProvider.addData(context, dataEntity);
           },
           dropdonwOption: dataSnap,
         );
@@ -94,6 +94,7 @@ class _AddDataDialogPageState<BP extends BaseProvider>
           ),
           DropdownField(
             items: widget.dropdonwOption.listType,
+            initialValue: type,
             onChange: (onChangeItem) {
               type = onChangeItem;
             },

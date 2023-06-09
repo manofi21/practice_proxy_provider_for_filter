@@ -18,7 +18,6 @@ import 'convert_type.dart';
 const String keyidtable = "id_table";
 
 WatchingModelEntity convertMapToWatchingEntitiy(Map<String, Object?> mapValue) {
-  print('resultFromQuery : $mapValue');
   return WatchingModelEntity(
     id: convertType<int>(mapValue[keyidtable]) ?? 0,
     isFavorite: convertType<int>(mapValue[WatchingModelV1.keyfavorite]) == 1,

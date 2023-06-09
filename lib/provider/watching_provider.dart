@@ -44,6 +44,7 @@ class WatchingProvider extends BaseProvider {
     final watchRepoImpl = WatchingRepoImpl();
     final listStatus = await watchRepoImpl.getListWatcStatusModel();
     final listType = await watchRepoImpl.getListWatchTypeModel();
+    await Future.delayed(const Duration(seconds: 1)); // Adding Deleyed for showing circular indicator 
     return BaseDropdownReturn(
       listStatus: listStatus
           .map((e) => DropdownItem(key: e.id, title: e.nameStatus))

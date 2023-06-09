@@ -24,7 +24,7 @@ Widget addDataDialog<BP extends BaseProvider>(BuildContext context) {
         return const SizedBox(
           height: 50,
           width: 50,
-          child: CircularProgressIndicator(),
+          child: Center(child: CircularProgressIndicator()),
         );
       }
 

@@ -64,14 +64,17 @@ class _DashboardViewState extends State<DashboardView>
         padding: const EdgeInsets.only(top: 20),
         child: Stack(
           children: [
-            TabBarView(
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                TabbarHobbyView<WatchingProvider>(),
-                TabbarHobbyView<ReadingProvider>(),
-                TabbarHobbyView<GamingProvider>(),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(bottom: bottomButtonHeight),
+              child: TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  TabbarHobbyView<WatchingProvider>(),
+                  TabbarHobbyView<ReadingProvider>(),
+                  TabbarHobbyView<GamingProvider>(),
+                ],
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,

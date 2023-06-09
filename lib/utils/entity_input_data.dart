@@ -20,8 +20,8 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       id: 0,
       name: name,
       isFavorite: isFavorite,
-      typeGame: statusDropdown,
-      statusGame: typeDropdown,
+      typeGame: typeDropdown,
+      statusGame: statusDropdown,
     );
   }
 
@@ -30,8 +30,8 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       id: 0,
       name: name,
       isFavorite: isFavorite,
-      typeWatch: statusDropdown,
-      statusWatch: typeDropdown,
+      typeWatch: typeDropdown,
+      statusWatch: statusDropdown,
     );
   }
 
@@ -40,8 +40,8 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       id: 0,
       name: name,
       isFavorite: isFavorite,
-      typeRead: statusDropdown,
-      statusRead: typeDropdown,
+      typeRead: typeDropdown,
+      statusRead: statusDropdown,
     );
   }
 

@@ -15,6 +15,11 @@ abstract class BaseProvider extends ChangeNotifier {
     // required void Function(Failure failure) onError,
   });
 
+  Future<void> processFilter({
+    required BuildContext context,
+    required void Function(List<BaseModelEntity> listItems) onSuccess,
+  });
+
   Future<BaseDropdownReturn> processLoadDropdownData();
 
   Future<void> processAddData({
@@ -29,6 +34,21 @@ abstract class BaseProvider extends ChangeNotifier {
     notifyListeners();
 
     return processInit(
+      context: context,
+      onSuccess: (result) {
+        _getListValue = result;
+        _loading = false;
+
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> initFilterData(BuildContext context) async {
+    _loading = true;
+    notifyListeners();
+
+    return processFilter(
       context: context,
       onSuccess: (result) {
         _getListValue = result;

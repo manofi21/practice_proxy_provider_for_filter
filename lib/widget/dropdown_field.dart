@@ -28,6 +28,12 @@ class _DropdownFieldState extends State<DropdownField> {
   DropdownItem? initialValue;
 
   @override
+  void initState() {
+    super.initState();
+    initialValue = widget.initialValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FormField(
       initialValue: false,

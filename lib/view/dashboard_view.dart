@@ -3,6 +3,7 @@ import 'package:proxy_provider_for_filter/provider/gaming_provider.dart';
 import 'package:proxy_provider_for_filter/view/tabbar_hobby_view.dart';
 
 import '../bottom_sheet/show_bottom_sheet_add_data.dart';
+import '../bottom_sheet/show_bottom_sheet_filter_list.dart';
 import '../provider/reading_provider.dart';
 import '../provider/watching_provider.dart';
 import '../theme/theme_value.dart';
@@ -23,19 +24,19 @@ const tabTitleSales = [
 
 class _DashboardViewState extends State<DashboardView>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  var _currentIndex = 0;
+  late TabController tabController;
+  var currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
+    tabController = TabController(
       length: tabTitleSales.length,
       vsync: this,
     );
-    _tabController.addListener(() {
+    tabController.addListener(() {
       setState(() {
-        _currentIndex = _tabController.index;
+        currentIndex = tabController.index;
       });
     });
   }
@@ -51,10 +52,9 @@ class _DashboardViewState extends State<DashboardView>
             child: Container(
               alignment: Alignment.center,
               child: TabBar(
-                controller: _tabController,
+                controller: tabController,
                 indicatorWeight: 3,
                 isScrollable: true,
-                // labelColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: const Color(disabledColorValue),
                 tabs: tabTitleSales,
               ),
@@ -67,7 +67,7 @@ class _DashboardViewState extends State<DashboardView>
             Padding(
               padding: const EdgeInsets.only(bottom: bottomButtonHeight),
               child: TabBarView(
-                controller: _tabController,
+                controller: tabController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: const [
                   TabbarHobbyView<WatchingProvider>(),
@@ -95,8 +95,10 @@ class _DashboardViewState extends State<DashboardView>
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              showBottomSheetAddData(context,
-                                  index: _currentIndex);
+                              showBottomSheetAddData(
+                                context,
+                                index: currentIndex,
+                              );
                             },
                             child: const Text("Create New"),
                           ),
@@ -104,7 +106,12 @@ class _DashboardViewState extends State<DashboardView>
                         const SizedBox(width: 10),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showBottomSheetFilterList(
+                                context,
+                                index: currentIndex,
+                              );
+                            },
                             child: const Text("Filter"),
                           ),
                         )

@@ -8,6 +8,12 @@ import 'sqflite_order.dart';
 
 abstract class SqlBaseRepo {
   Future<void> insertData(String table, Map<String, Object?> mapData);
+  Future<void> updateData(
+    String table,
+    Map<String, Object?> mapData, {
+    String? where,
+    List<Object?>? whereArgs,
+  });
   Future<List<T>> getListData<T>({
     required String table,
     required T Function(Map<String, dynamic> map) fromMap,
@@ -166,6 +172,17 @@ class SqlBaseRepoImpl implements SqlBaseRepo {
     final db = await database;
     final resultRawQuery = await db.rawQuery(rawQuery, arguments);
     return resultRawQuery.map((e) => fromMap(e)).toList();
+  }
+
+  @override
+  Future<void> updateData(
+    String table,
+    Map<String, Object?> mapData, {
+    String? where,
+    List<Object?>? whereArgs,
+  }) async {
+    final db = await database;
+    db.update(table, mapData, where: where, whereArgs: whereArgs);
   }
 }
 

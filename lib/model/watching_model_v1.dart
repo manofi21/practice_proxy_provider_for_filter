@@ -51,6 +51,15 @@ class WatchingModelV1 extends BaseModelV1 {
     };
   }
 
+  Map<String, dynamic> toUpdateMap() {
+    return <String, dynamic>{
+      keyname: name,
+      keyfavorite: isFavorite,
+      keyidtype: idType,
+      keyidstatus: idStatus,
+    };
+  }
+
   factory WatchingModelV1.fromMap(Map<String, dynamic> map) {
     return WatchingModelV1(
       id: convertType<int>(map[keyid]) ?? 0,

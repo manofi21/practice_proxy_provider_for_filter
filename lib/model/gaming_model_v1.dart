@@ -51,6 +51,15 @@ class GamingModelV1 extends BaseModelV1 {
     };
   }
 
+  Map<String, dynamic> toUpdateMap() {
+    return <String, dynamic>{
+      keyname: name,
+      keyfavorite: isFavorite,
+      keyidtype: idType,
+      keyidstatus: idStatus,
+    };
+  }
+
   factory GamingModelV1.fromMap(Map<String, dynamic> map) {
     return GamingModelV1(
       id: convertType<int>(map[keyid]) ?? 0,

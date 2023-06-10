@@ -182,7 +182,7 @@ class SqlBaseRepoImpl implements SqlBaseRepo {
     List<Object?>? whereArgs,
   }) async {
     final db = await database;
-    db.update(table, mapData, where: where, whereArgs: whereArgs);
+    await db.update(table, mapData, where: where, whereArgs: whereArgs);
   }
 }
 

@@ -51,6 +51,15 @@ class ReadingModelV1 extends BaseModelV1 {
     };
   }
 
+  Map<String, dynamic> toUpdateMap() {
+    return <String, dynamic>{
+      keyname: name,
+      keyfavorite: isFavorite,
+      keyidtype: idType,
+      keyidstatus: idStatus,
+    };
+  }
+
   factory ReadingModelV1.fromMap(Map<String, dynamic> map) {
     return ReadingModelV1(
       id: convertType<int>(map[keyid]) ?? 0,

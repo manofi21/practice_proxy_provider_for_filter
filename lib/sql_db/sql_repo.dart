@@ -161,9 +161,10 @@ class SqlBaseRepoImpl implements SqlBaseRepo {
   Future<List<T>> getListDataRawQuery<T>({
     required String rawQuery,
     required T Function(Map<String, dynamic> map) fromMap,
+    List<Object?>? arguments = const [],
   }) async {
     final db = await database;
-    final resultRawQuery = await db.rawQuery(rawQuery);
+    final resultRawQuery = await db.rawQuery(rawQuery, arguments);
     return resultRawQuery.map((e) => fromMap(e)).toList();
   }
 }

@@ -10,6 +10,7 @@ import '../provider/base_provider.dart';
 import '../provider/reading_provider.dart';
 
 BaseModelEntity? entityInputData<BP extends BaseProvider>({
+  int? id,
   required String name,
   required bool isFavorite,
   required DropdownItem statusDropdown,
@@ -17,7 +18,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
 }) {
   if (BP == GamingProvider) {
     return GamingModelEntity(
-      id: 0,
+      id: id,
       name: name,
       isFavorite: isFavorite,
       typeGame: typeDropdown,
@@ -27,7 +28,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
 
   if (BP == WatchingProvider) {
     return WatchingModelEntity(
-      id: 0,
+      id: id,
       name: name,
       isFavorite: isFavorite,
       typeWatch: typeDropdown,
@@ -37,7 +38,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
 
     if (BP == ReadingProvider) {
     return ReadingModelEntity(
-      id: 0,
+      id: id,
       name: name,
       isFavorite: isFavorite,
       typeRead: typeDropdown,

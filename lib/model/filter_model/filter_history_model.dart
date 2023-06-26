@@ -33,6 +33,11 @@ class FilterHistoryModel {
       argument: argument,
     );
   }
+
+  @override
+  String toString() {
+    return 'FilterHistoryModel(favorite: $favorite, startDate: $startDate, endDate: $endDate, statusId: $statusId)';
+  }
 }
 
 class FilterModelResult {

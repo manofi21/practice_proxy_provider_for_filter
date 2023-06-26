@@ -5,10 +5,12 @@ import '../entities/base_model_entity.dart';
 class TileListCardWidget extends StatelessWidget {
   final String nameOfTitle;
   final BaseModelEntity baseModelEntity;
+  final void Function() onFavorite;
   const TileListCardWidget({
     Key? key,
     required this.nameOfTitle,
     required this.baseModelEntity,
+    required this.onFavorite,
   }) : super(key: key);
 
   @override
@@ -44,11 +46,12 @@ class TileListCardWidget extends StatelessWidget {
             title,
             style: theme.textTheme.bodyLarge?.copyWith(fontSize: 20),
           ),
-          if (isFavorite)...{
-            const Icon(Icons.favorite)
-          }else...{
-            const Icon(Icons.favorite_border)
-          },
+          IconButton(
+            onPressed: onFavorite,
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
+          )
         ],
       );
     }
@@ -60,7 +63,10 @@ class TileListCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(nameOfTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(
+              nameOfTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
             nameTitle(baseModelEntity.name, baseModelEntity.isFavorite),
             childItem("Category", baseModelEntity.typeDropdown.title ?? ''),
             childItem("Status", baseModelEntity.statusDropdown.title ?? ''),

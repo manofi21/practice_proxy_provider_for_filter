@@ -54,4 +54,16 @@ class ReadingProvider extends BaseProvider {
           .toList(),
     );
   }
+  
+  @override
+  Future<void> processFilter({required BuildContext context, required void Function(List<BaseModelEntity> listItems) onSuccess}) {
+    // TODO: implement processFilter
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> processUpdateData({required BuildContext context, required BaseModelEntity inputModel, required void Function(List<BaseModelEntity> listItems) onSuccess}) {
+    // TODO: implement processUpdateData
+    throw UnimplementedError();
+  }
 }

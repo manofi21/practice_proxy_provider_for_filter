@@ -20,6 +20,12 @@ abstract class BaseProvider extends ChangeNotifier {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   });
 
+  Future<void> processUpdateData({
+    required BuildContext context,
+    required BaseModelEntity inputModel,
+    required void Function(List<BaseModelEntity> listItems) onSuccess,
+  });
+
   Future<BaseDropdownReturn> processLoadDropdownData();
 
   Future<void> processAddData({
@@ -60,7 +66,29 @@ abstract class BaseProvider extends ChangeNotifier {
   }
 
   Future<void> addData(BuildContext context, BaseModelEntity inputModel) {
+    _loading = true;
+    notifyListeners();
+
     return processAddData(
+      context: context,
+      inputModel: inputModel,
+      onSuccess: (result) {
+        _getListValue = result;
+        _loading = false;
+
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> updateData(
+    BuildContext context,
+    BaseModelEntity inputModel,
+  ) async {
+    _loading = true;
+    notifyListeners();
+
+    return processUpdateData(
       context: context,
       inputModel: inputModel,
       onSuccess: (result) {

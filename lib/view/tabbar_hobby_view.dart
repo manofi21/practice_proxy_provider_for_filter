@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/utils/on_update_favorite_entity.dart';
-import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 
 import '../provider/base_provider.dart';
+import '../show_dialog/show_edit_dialog.dart';
 import '../utils/get_name_of_title.dart';
 import '../widget/tile_list_card_widget.dart';
 
@@ -15,7 +15,6 @@ class TabbarHobbyView<BP extends BaseProvider> extends StatefulWidget {
 
 class _TabbarHobbyViewState<BP extends BaseProvider>
     extends State<TabbarHobbyView<BP>> {
-
   @override
   void didChangeDependencies() {
     final _prov = context.read<BP>();
@@ -55,6 +54,9 @@ class _TabbarHobbyViewState<BP extends BaseProvider>
                       if (changeFavValue != null) {
                         await value.updateData(context, changeFavValue);
                       }
+                    },
+                    onClick: () {
+                      showEditDialog<BP>(context, item: e);
                     },
                   ),
                 )

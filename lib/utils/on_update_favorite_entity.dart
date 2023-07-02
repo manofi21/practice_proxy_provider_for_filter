@@ -1,4 +1,3 @@
-import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
 import 'package:proxy_provider_for_filter/entities/gaming_model_entity.dart';
 import 'package:proxy_provider_for_filter/provider/gaming_provider.dart';
 import 'package:proxy_provider_for_filter/provider/watching_provider.dart';

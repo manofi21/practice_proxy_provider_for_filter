@@ -16,6 +16,8 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
   required DropdownItem statusDropdown,
   required DropdownItem typeDropdown,
 }) {
+  assert(BP == GamingProvider || BP == WatchingProvider || BP == ReadingProvider);
+
   if (BP == GamingProvider) {
     return GamingModelEntity(
       id: id,

@@ -6,11 +6,13 @@ class TileListCardWidget extends StatelessWidget {
   final String nameOfTitle;
   final BaseModelEntity baseModelEntity;
   final void Function() onFavorite;
+  final VoidCallback onClick;
   const TileListCardWidget({
     Key? key,
     required this.nameOfTitle,
     required this.baseModelEntity,
     required this.onFavorite,
+    required this.onClick,
   }) : super(key: key);
 
   @override
@@ -56,21 +58,24 @@ class TileListCardWidget extends StatelessWidget {
       );
     }
 
-    return Card(
-      margin: const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 20),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              nameOfTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            nameTitle(baseModelEntity.name, baseModelEntity.isFavorite),
-            childItem("Category", baseModelEntity.typeDropdown.title ?? ''),
-            childItem("Status", baseModelEntity.statusDropdown.title ?? ''),
-          ],
+    return InkWell(
+      onTap: onClick,
+      child: Card(
+        margin: const EdgeInsets.only(left: 20, top: 10, bottom: 20, right: 20),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nameOfTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              nameTitle(baseModelEntity.name, baseModelEntity.isFavorite),
+              childItem("Category", baseModelEntity.typeDropdown.title ?? ''),
+              childItem("Status", baseModelEntity.statusDropdown.title ?? ''),
+            ],
+          ),
         ),
       ),
     );

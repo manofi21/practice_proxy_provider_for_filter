@@ -4,12 +4,15 @@ import '../entities/dropdown_item.dart';
 import '../theme/theme_value.dart';
 
 class DropdownField extends StatefulWidget {
-  const DropdownField(
-      {Key? key,
-      required this.items,
-      required this.onChange,
-      this.initialValue})
-      : super(key: key);
+  const DropdownField({
+    Key? key,
+    required this.items,
+    required this.onChange,
+    this.initialValue,
+    this.margin =
+        const EdgeInsets.symmetric(horizontal: sizeM, vertical: sizeS),
+    this.padding = const EdgeInsets.symmetric(horizontal: sizeMS),
+  }) : super(key: key);
 
   /// Callback on change action on dropdown
   final Function(DropdownItem?) onChange;
@@ -19,6 +22,10 @@ class DropdownField extends StatefulWidget {
 
   /// variable initial value
   final DropdownItem? initialValue;
+
+  final EdgeInsets margin;
+
+  final EdgeInsets padding;
 
   @override
   State<DropdownField> createState() => _DropdownFieldState();
@@ -63,11 +70,8 @@ class _DropdownFieldState extends State<DropdownField> {
         );
 
         return Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: sizeMS,
-          ),
-          margin:
-              const EdgeInsets.symmetric(horizontal: sizeM, vertical: sizeS),
+          padding: widget.padding,
+          margin: widget.margin,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(borderRadiusValue)),
           child: dropdown,

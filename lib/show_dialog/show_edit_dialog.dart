@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/show_dialog/show_edit_dialog.dart';
-import 'package:proxy_provider_for_filter/utils/entity_input_data.dart';
-import 'package:proxy_provider_for_filter/widget/base_widget/basic_dialog.dart';
 
+import '../entities/base_dropdown_return.dart';
 import '../entities/base_model_entity.dart';
 import '../provider/base_provider.dart';
 import '../utils/get_name_of_title.dart';
+import '../widget/base_widget/form_page_dialog.dart';
 export 'package:provider/provider.dart';
 
 void showEditDialog<BP extends BaseProvider>(
@@ -14,45 +14,46 @@ void showEditDialog<BP extends BaseProvider>(
 }) {
   final baseProvider = context.read<BP>();
   final nameTitle = getNameOfTitle(baseProvider);
-
-  var currentName = item.name;
+  final dropdownOption = baseProvider.processLoadDropdownData();
 
   showDialog(
     context: context,
     builder: (context) {
-      return BasicDialog(
-        title: 'Detail Page',
-        listWidget: [
-          Text('Name of $nameTitle'),
-          TextFormField(
-            initialValue: currentName,
-            onChanged: (value) {
-              currentName = value;
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(width: 5),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final updatedEntity = entityInputData<BP>(
-                id: item.id,
-                name: currentName,
-                isFavorite: item.isFavorite,
-                statusDropdown: item.statusDropdown,
-                typeDropdown: item.typeDropdown,
-              );
+      return FutureBuilder<BaseDropdownReturn>(
+        future: dropdownOption,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox(
+              height: 50,
+              width: 50,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
 
-              if (updatedEntity != null) {
-                await baseProvider.updateData(context, updatedEntity);
-              }
-              Navigator.pop(context);
-            },
-            child: const Text('Save'),
-          )
-        ],
+          final dataSnap = snapshot.data;
+          if (snapshot.hasData && dataSnap != null) {
+            return AlertDialog(
+              content: FormPageDialog<BP>(
+                nameTitle: nameTitle,
+                buttonUpdateTitle: "Update",
+                pageTitle: "Detail Dialog",
+                onSubmitValue: (dataEntity) async {
+                  return baseProvider.updateData(context, dataEntity);
+                },
+                dropdonwOption: dataSnap,
+                item: item,
+                useFavoriteSection: true,
+              ),
+            );
+          }
+
+          return const SizedBox(
+            height: 25,
+            child: Center(
+              child: Text("Dropdown Data Tidak Ditemukan"),
+            ),
+          );
+        },
       );
     },
   );

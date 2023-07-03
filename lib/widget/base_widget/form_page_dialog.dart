@@ -35,11 +35,16 @@ class FormPageDialog<BP extends BaseProvider> extends StatefulWidget {
 
 class _FormPageDialogState<BP extends BaseProvider>
     extends State<FormPageDialog<BP>> {
+  String name = '';
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.item?.name ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final nameController = TextEditingController(
-      text: widget.item?.name ?? '',
-    );
     DropdownItem? type = widget.item?.typeDropdown;
     DropdownItem? status = widget.item?.statusDropdown;
     bool favorite = widget.item?.isFavorite ?? false;
@@ -52,7 +57,12 @@ class _FormPageDialogState<BP extends BaseProvider>
           FormPageTitle(widget.pageTitle, padding: EdgeInsets.zero),
           const SizedBox(height: 20),
           Text("Name of ${widget.nameTitle}:"),
-          TextFormField(controller: nameController),
+          TextFormField(
+            initialValue: name,
+            onChanged: (onChangeValue) {
+              name = onChangeValue;
+            },
+          ),
           const SizedBox(height: 10),
           Text("Type of ${widget.nameTitle}"),
           DropdownField(
@@ -89,7 +99,7 @@ class _FormPageDialogState<BP extends BaseProvider>
               onPressed: () async {
                 final getEntity = entityInputData<BP>(
                   id: widget.item?.id,
-                  name: nameController.text,
+                  name: name,
                   typeDropdown: type ?? DropdownItem(key: ''),
                   statusDropdown: status ?? DropdownItem(key: ''),
                   isFavorite: favorite,

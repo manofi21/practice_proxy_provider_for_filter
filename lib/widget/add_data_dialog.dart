@@ -3,14 +3,9 @@ import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 export 'package:provider/provider.dart';
 
 import '../entities/base_dropdown_return.dart';
-import '../entities/base_model_entity.dart';
-import '../entities/dropdown_item.dart';
 import '../provider/base_provider.dart';
-import '../theme/theme_value.dart';
-import '../utils/entity_input_data.dart';
 import '../utils/get_name_of_title.dart';
-import 'base_widget/form_page_title.dart';
-import 'dropdown_field.dart';
+import 'base_widget/form_page_dialog.dart';
 
 Widget addDataDialog<BP extends BaseProvider>(BuildContext context) {
   final baseProvider = context.read<BP>();
@@ -30,12 +25,17 @@ Widget addDataDialog<BP extends BaseProvider>(BuildContext context) {
 
       final dataSnap = snapshot.data;
       if (snapshot.hasData && dataSnap != null) {
-        return AddDataDialogPage<BP>(
-          nameTitle: nameTitle,
-          onAddData: (dataEntity) async {
-            return baseProvider.addData(context, dataEntity);
-          },
-          dropdonwOption: dataSnap,
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 23.0, vertical: 20),
+          child: FormPageDialog<BP>(
+            nameTitle: nameTitle,
+            buttonUpdateTitle: "Add New",
+            pageTitle: "Add Data Dialog",
+            onSubmitValue: (dataEntity) async {
+              return baseProvider.addData(context, dataEntity);
+            },
+            dropdonwOption: dataSnap,
+          ),
         );
       }
 
@@ -47,89 +47,4 @@ Widget addDataDialog<BP extends BaseProvider>(BuildContext context) {
       );
     },
   );
-}
-
-class AddDataDialogPage<BP extends BaseProvider> extends StatefulWidget {
-  final String nameTitle;
-  final BaseDropdownReturn dropdonwOption;
-  final Future<void> Function(BaseModelEntity getEntity) onAddData;
-  const AddDataDialogPage({
-    Key? key,
-    required this.nameTitle,
-    required this.onAddData,
-    required this.dropdonwOption,
-  }) : super(key: key);
-
-  @override
-  State<AddDataDialogPage<BP>> createState() => _AddDataDialogPageState<BP>();
-}
-
-class _AddDataDialogPageState<BP extends BaseProvider>
-    extends State<AddDataDialogPage<BP>> {
-  @override
-  Widget build(BuildContext context) {
-    final nameController = TextEditingController();
-    DropdownItem? type;
-    DropdownItem? status;
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const FormPageTitle("Add Data Dialog"),
-          Container(
-            margin: const EdgeInsets.only(left: sizeM + sizeS, top: sizeS),
-            child: Text("Name of ${widget.nameTitle}:"),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 23.0),
-            child: TextFormField(
-              controller: nameController,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: sizeM + sizeS, top: sizeS),
-            child: Text("Type of ${widget.nameTitle}"),
-          ),
-          DropdownField(
-            items: widget.dropdonwOption.listType,
-            initialValue: type,
-            onChange: (onChangeItem) {
-              type = onChangeItem;
-            },
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: sizeM + sizeS, top: sizeS),
-            child: const Text("Status"),
-          ),
-          DropdownField(
-            items: widget.dropdonwOption.listStatus,
-            initialValue: status,
-            onChange: (item) {
-              status = item;
-            },
-          ),
-          Container(
-            margin: const EdgeInsets.all(sizeM),
-            child: OutlinedButton(
-              onPressed: () async {
-                final getEntity = entityInputData<BP>(
-                  name: nameController.text,
-                  typeDropdown: type ?? DropdownItem(key: ''),
-                  statusDropdown: status ?? DropdownItem(key: ''),
-                  isFavorite: false,
-                );
-                if (getEntity != null) {
-                  await widget.onAddData(getEntity);
-                }
-                Navigator.pop(context);
-              },
-              child: const Text("Add Data"),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }

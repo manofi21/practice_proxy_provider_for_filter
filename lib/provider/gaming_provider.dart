@@ -72,27 +72,27 @@ class GamingProvider extends BaseProvider {
       statusId: filterProvider.status?.key,
       favorite: filterProvider.favorite,
     );
-    final watchRepoImpl = GamingRepoImpl();
-    final listResult = await watchRepoImpl.getListGamingHistory(
+    final gamingRepoImpl = GamingRepoImpl();
+    final listResult = await gamingRepoImpl.getListGamingHistory(
         filterHistoryModel: filterData);
     onSuccess(listResult);
   }
   
   @override
   Future<void> processUpdateData({required BuildContext context, required BaseModelEntity inputModel, required void Function(List<BaseModelEntity> listItems) onSuccess}) async {
-    final watchRepoImpl = GamingRepoImpl();
+    final gamingRepoImpl = GamingRepoImpl();
 
     if (inputModel is GamingModelEntity) {
-      final watchingInputModel = GamingModelV1(
+      final gamingInputModel = GamingModelV1(
         id: inputModel.id,
         name: inputModel.name,
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusGame: inputModel.statusGame.key,
         idTypeGame: inputModel.typeGame.key,
       );
-      await watchRepoImpl.updateGamingHistory(watchingInputModel);
+      await gamingRepoImpl.updateGamingHistory(gamingInputModel);
     }
-    final listResult = await watchRepoImpl.getListGamingHistory();
+    final listResult = await gamingRepoImpl.getListGamingHistory();
     onSuccess(listResult);
   }
 }

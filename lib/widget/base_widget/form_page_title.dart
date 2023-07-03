@@ -33,10 +33,21 @@ class FormPageTitle extends StatelessWidget {
 
     return Padding(
       padding: padding,
-      child: Text(
-        title,
-        textAlign: textAlign,
-        style: textStyle ?? textTheme.titleLarge,
+      child: Row(
+        children: [
+          Text(
+            title,
+            textAlign: textAlign,
+            style: textStyle ?? textTheme.titleLarge,
+          ),
+          const Spacer(),
+          InkWell(
+            child: const Icon(Icons.close),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
       ),
     );
   }

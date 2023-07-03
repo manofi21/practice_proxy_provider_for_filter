@@ -4,11 +4,19 @@ import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 
 import '../entities/dropdown_item.dart';
 import '../entities/reading_model_entity.dart';
+import '../model/filter_model/filter_history_model.dart';
 import '../model/reading_model_v1.dart';
 import '../repo/reading_repo.dart';
 import 'base_provider.dart';
+import 'filter_provider.dart';
 
 class ReadingProvider extends BaseProvider {
+  late FilterProvider filterProvider;
+  void initFilterProv(FilterProvider filterProvider) {
+    this.filterProvider = filterProvider;
+    notifyListeners();
+  }
+
   @override
   Future<void> processInit({
     required BuildContext context,
@@ -54,16 +62,41 @@ class ReadingProvider extends BaseProvider {
           .toList(),
     );
   }
-  
+
   @override
-  Future<void> processFilter({required BuildContext context, required void Function(List<BaseModelEntity> listItems) onSuccess}) {
-    // TODO: implement processFilter
-    throw UnimplementedError();
+  Future<void> processFilter(
+      {required BuildContext context,
+      required void Function(List<BaseModelEntity> listItems)
+          onSuccess}) async {
+    final filterData = FilterHistoryModel(
+      statusId: filterProvider.status?.key,
+      favorite: filterProvider.favorite,
+    );
+    final readRepoImpl = ReadingRepoImpl();
+    final listResult = await readRepoImpl.getListReadingHistory(
+        filterHistoryModel: filterData);
+    onSuccess(listResult);
   }
-  
+
   @override
-  Future<void> processUpdateData({required BuildContext context, required BaseModelEntity inputModel, required void Function(List<BaseModelEntity> listItems) onSuccess}) {
-    // TODO: implement processUpdateData
-    throw UnimplementedError();
+  Future<void> processUpdateData(
+      {required BuildContext context,
+      required BaseModelEntity inputModel,
+      required void Function(List<BaseModelEntity> listItems)
+          onSuccess}) async {
+    final readingRepoImpl = ReadingRepoImpl();
+
+    if (inputModel is ReadingModelEntity) {
+      final readingInputModel = ReadingModelV1(
+        id: inputModel.id,
+        name: inputModel.name,
+        isFavorite: inputModel.isFavorite ? 1 : 0,
+        idStatusRead: inputModel.statusRead.key,
+        idTypeRead: inputModel.typeRead.key,
+      );
+      await readingRepoImpl.updateReadingHistory(readingInputModel);
+    }
+    final listResult = await readingRepoImpl.getListReadingHistory();
+    onSuccess(listResult);
   }
 }

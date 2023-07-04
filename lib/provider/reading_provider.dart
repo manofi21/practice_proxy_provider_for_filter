@@ -34,12 +34,15 @@ class ReadingProvider extends BaseProvider {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
     final readhRepoImpl = ReadingRepoImpl();
+    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+
     if (inputModel is ReadingModelEntity) {
       final readingInputModel = ReadingModelV1(
         name: inputModel.name,
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusRead: inputModel.statusRead.key,
         idTypeRead: inputModel.typeRead.key,
+        createAt: createAtMilliSecond,
       );
       await readhRepoImpl.addReadingHistory(readingInputModel);
     }
@@ -85,6 +88,11 @@ class ReadingProvider extends BaseProvider {
       required void Function(List<BaseModelEntity> listItems)
           onSuccess}) async {
     final readingRepoImpl = ReadingRepoImpl();
+    final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+    assert(inputModel.createAt != null);
+
+    final createAtMilliSecond =
+        inputModel.createAt!.toUtc().millisecondsSinceEpoch;
 
     if (inputModel is ReadingModelEntity) {
       final readingInputModel = ReadingModelV1(
@@ -93,6 +101,8 @@ class ReadingProvider extends BaseProvider {
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusRead: inputModel.statusRead.key,
         idTypeRead: inputModel.typeRead.key,
+        createAt: createAtMilliSecond,
+        updateAt: updateAtAsMilliSecond,
       );
       await readingRepoImpl.updateReadingHistory(readingInputModel);
     }

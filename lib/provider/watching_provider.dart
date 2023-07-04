@@ -33,12 +33,15 @@ class WatchingProvider extends BaseProvider {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
     final watchRepoImpl = WatchingRepoImpl();
+    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+
     if (inputModel is WatchingModelEntity) {
       final watcingInputModel = WatchingModelV1(
         name: inputModel.name,
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusWatch: inputModel.statusWatch.key,
         idTypeWatch: inputModel.typeWatch.key,
+        createAt: createAtMilliSecond,
       );
       await watchRepoImpl.addWatchingHistory(watcingInputModel);
     }
@@ -87,6 +90,11 @@ class WatchingProvider extends BaseProvider {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
     final watchRepoImpl = WatchingRepoImpl();
+    final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+    assert(inputModel.createAt != null);
+
+    final createAtMilliSecond =
+        inputModel.createAt!.toUtc().millisecondsSinceEpoch;
 
     if (inputModel is WatchingModelEntity) {
       final watchingInputModel = WatchingModelV1(
@@ -95,6 +103,8 @@ class WatchingProvider extends BaseProvider {
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusWatch: inputModel.statusWatch.key,
         idTypeWatch: inputModel.typeWatch.key,
+        createAt: createAtMilliSecond,
+        updateAt: updateAtAsMilliSecond,
       );
       await watchRepoImpl.updateWatchingHistory(watchingInputModel);
     }

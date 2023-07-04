@@ -34,12 +34,14 @@ class GamingProvider extends BaseProvider {
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
     final gamingRepoImpl = GamingRepoImpl();
+    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
     if (inputModel is GamingModelEntity) {
       final gamingInputModel = GamingModelV1(
         name: inputModel.name,
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusGame: inputModel.statusGame.key,
         idTypeGame: inputModel.typeGame.key,
+        createAt: createAtMilliSecond,
       );
       await gamingRepoImpl.addGamingHistory(gamingInputModel);
     }
@@ -83,12 +85,18 @@ class GamingProvider extends BaseProvider {
     final gamingRepoImpl = GamingRepoImpl();
 
     if (inputModel is GamingModelEntity) {
+      final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+      assert(inputModel.createAt != null);
+      
+      final createAtMilliSecond = inputModel.createAt!.toUtc().millisecondsSinceEpoch;
       final gamingInputModel = GamingModelV1(
         id: inputModel.id,
         name: inputModel.name,
         isFavorite: inputModel.isFavorite ? 1 : 0,
         idStatusGame: inputModel.statusGame.key,
         idTypeGame: inputModel.typeGame.key,
+        createAt: createAtMilliSecond,
+        updateAt: updateAtAsMilliSecond,
       );
       await gamingRepoImpl.updateGamingHistory(gamingInputModel);
     }

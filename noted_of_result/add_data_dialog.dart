@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/entities/base_dropdown_return.dart';
 import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
@@ -6,16 +8,18 @@ import 'package:proxy_provider_for_filter/provider/base_provider.dart';
 import 'package:proxy_provider_for_filter/theme/theme_value.dart';
 import 'package:proxy_provider_for_filter/utils/entity_input_data.dart';
 import 'package:proxy_provider_for_filter/utils/get_name_of_title.dart';
+import 'package:proxy_provider_for_filter/widget/add_data_dialog.dart';
 import 'package:proxy_provider_for_filter/widget/base_widget/form_page_title.dart';
 import 'package:proxy_provider_for_filter/widget/dropdown_field.dart';
-import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
 export 'package:provider/provider.dart';
 
 /// NOTE: CARA INI AKAN MENYEBABKAN ERRO KARENA BUILDCONTEXT untuk PROVIDER BP
 /// TIDAK DITEMUKAN. Harus ada BuildContext dari Parameter supanya context
 /// nyambung dengan context sebelumnya.
 /// 
-// ignore: unused_element
+/// 
+/// Penggunaan dialihkan ke [addDataDialog]
+@Deprecated('Use [addDataDialog] instead')
 Widget _addDataDialog<BP extends BaseProvider>() {
   // final baseProvider = context.read<BP>();
   // final nameTitle = getNameOfTitle(baseProvider);
@@ -120,6 +124,7 @@ class __AddDataDialogPageState<BP extends BaseProvider>
                   typeDropdown: type ?? DropdownItem(key: ''),
                   statusDropdown: status ?? DropdownItem(key: ''),
                   isFavorite: false,
+                  createAt: DateTime.now(),
                 );
                 if (getEntity != null) {
                   await widget.onAddData(getEntity);

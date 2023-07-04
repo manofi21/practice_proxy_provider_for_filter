@@ -4,6 +4,8 @@ abstract class BaseModelV1 {
   final int isFavorite;
   final String idType;
   final String idStatus;
+  final int createAt;
+  final int? updateAt;
 
   const BaseModelV1({
     this.id,
@@ -11,5 +13,7 @@ abstract class BaseModelV1 {
     required this.isFavorite,
     required this.idType,
     required this.idStatus,
+    required this.createAt, 
+    this.updateAt,
   });
 }

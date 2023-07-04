@@ -11,12 +11,16 @@ class GamingModelV1 extends BaseModelV1 {
     required int isFavorite,
     required String idTypeGame,
     required String idStatusGame,
+    required int createAt,
+    int? updateAt,
   }) : super(
           id: id,
           name: name,
           isFavorite: isFavorite,
           idType: idTypeGame,
           idStatus: idStatusGame,
+          createAt: createAt,
+          updateAt: updateAt,
         );
 
   static const String table = "gaming_table";
@@ -25,17 +29,21 @@ class GamingModelV1 extends BaseModelV1 {
   static const String keyfavorite = "favorite";
   static const String keyidtype = "id_type";
   static const String keyidstatus = "id_status";
+  static const String keycreateAt = "create_at";
+  static const String keyupdateAt = "update_at";
 
   static Future<void> initTable(Transaction txn) async {
     return txn.execute(
       '''
-        create table $table 
+        create table $table
         (
           $keyid integer primary key AUTOINCREMENT not null,
           $keyname text not null,
           $keyfavorite integer not null,
           $keyidtype text not null,
-          $keyidstatus text not null
+          $keyidstatus text not null,
+          $keycreateAt integer not null,
+          $keyupdateAt integer
         )
       ''',
     );
@@ -48,6 +56,8 @@ class GamingModelV1 extends BaseModelV1 {
       keyfavorite: isFavorite,
       keyidtype: idType,
       keyidstatus: idStatus,
+      keycreateAt: createAt,
+      keyupdateAt: updateAt,
     };
   }
 
@@ -57,6 +67,8 @@ class GamingModelV1 extends BaseModelV1 {
       keyfavorite: isFavorite,
       keyidtype: idType,
       keyidstatus: idStatus,
+      keycreateAt: createAt,
+      keyupdateAt: updateAt,
     };
   }
 
@@ -67,6 +79,8 @@ class GamingModelV1 extends BaseModelV1 {
       isFavorite: convertType<int>(map[keyfavorite]) ?? 0,
       idTypeGame: convertType<String>(map[keyidtype]) ?? '',
       idStatusGame: convertType<String>(map[keyidstatus]) ?? '',
+      createAt: convertType<int>(map[keycreateAt]) ?? 0,
+      updateAt: convertType<int>(map[keyupdateAt]),
     );
   }
 }

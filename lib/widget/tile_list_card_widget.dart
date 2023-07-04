@@ -43,14 +43,17 @@ class TileListCardWidget extends StatelessWidget {
       final theme = Theme.of(context);
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: theme.textTheme.bodyLarge?.copyWith(fontSize: 20),
+          Expanded(
+            child: Text(
+              title,
+              style: theme.textTheme.bodyLarge?.copyWith(fontSize: 20),
+            ),
           ),
-          IconButton(
-            onPressed: onFavorite,
-            icon: Icon(
+          InkWell(
+            onTap: onFavorite,
+            child: Icon(
               isFavorite ? Icons.favorite : Icons.favorite_border,
             ),
           )
@@ -71,7 +74,9 @@ class TileListCardWidget extends StatelessWidget {
                 nameOfTitle,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 10),
               nameTitle(baseModelEntity.name, baseModelEntity.isFavorite),
+              const SizedBox(height: 10),
               childItem("Category", baseModelEntity.typeDropdown.title ?? ''),
               childItem("Status", baseModelEntity.statusDropdown.title ?? ''),
             ],

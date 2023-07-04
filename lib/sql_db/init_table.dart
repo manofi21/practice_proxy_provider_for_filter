@@ -24,11 +24,55 @@ Future<void> initTables({
       // init Watch list
       await txn.insert(
         WatchingModelV1.table,
-        const WatchingModelV1(
+        WatchingModelV1(
           name: "Toaru Majutsu No Index",
           isFavorite: 1,
           idStatusWatch: "WS003",
           idTypeWatch: "WT002",
+          createAt: DateTime.now().toUtc().millisecondsSinceEpoch,
+          updateAt: DateTime.now().toUtc().millisecondsSinceEpoch,
+        ).toMap(),
+      );
+
+      await txn.insert(
+        WatchingModelV1.table,
+        WatchingModelV1(
+          name: "Toaru Majutsu No Index II",
+          isFavorite: 0,
+          idStatusWatch: "WS003",
+          idTypeWatch: "WT002",
+          createAt: DateTime.now()
+              .subtract(const Duration(days: 1))
+              .toUtc()
+              .millisecondsSinceEpoch,
+        ).toMap(),
+      );
+
+      await txn.insert(
+        ReadingModelV1.table,
+        ReadingModelV1(
+          name: "Toaru Majutsu No Index (Manga)",
+          isFavorite: 0,
+          idStatusRead: "RS001",
+          idTypeRead: "RT002",
+          createAt: DateTime.now()
+              .subtract(const Duration(days: 2))
+              .toUtc()
+              .millisecondsSinceEpoch,
+        ).toMap(),
+      );
+
+      await txn.insert(
+        ReadingModelV1.table,
+        ReadingModelV1(
+          name: "The Avengers (Comic)",
+          isFavorite: 0,
+          idStatusRead: "RS001",
+          idTypeRead: "RT002",
+          createAt: DateTime.now()
+              .subtract(const Duration(days: 2))
+              .toUtc()
+              .millisecondsSinceEpoch,
         ).toMap(),
       );
 

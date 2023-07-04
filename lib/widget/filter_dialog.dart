@@ -63,7 +63,8 @@ class FilterDialogPage extends StatefulWidget {
       required this.nameTitle,
       required this.dropdonwOption,
       required this.onApply,
-      required this.filterProvider, required this.onReset})
+      required this.filterProvider,
+      required this.onReset})
       : super(key: key);
 
   @override
@@ -128,6 +129,17 @@ class _FilterDialogPageState extends State<FilterDialogPage> {
               ),
             );
           }).toList(),
+          Container(
+            margin: const EdgeInsets.only(left: sizeM + sizeS, top: sizeS),
+            child: Text("Type of ${widget.nameTitle}"),
+          ),
+          DropdownField(
+            items: widget.dropdonwOption.listType,
+            onChange: (item) {
+              filterProvider.type = item;
+            },
+            initialValue: filterProvider.type,
+          ),
           Container(
             margin: const EdgeInsets.only(left: sizeM + sizeS, top: sizeS),
             child: const Text("Status"),

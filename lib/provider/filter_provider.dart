@@ -4,7 +4,7 @@ import '../entities/dropdown_item.dart';
 class FilterProvider extends ChangeNotifier {
   bool? _favorite;
   DateTime? _startDate, _endDate;
-  DropdownItem? _status;
+  DropdownItem? _status, _type;
 
   bool? get favorite => _favorite;
   set favorite(bool? setValue) {
@@ -30,11 +30,18 @@ class FilterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  DropdownItem? get type => _type;
+  set type(DropdownItem? setValue) {
+    _type = setValue;
+    notifyListeners();
+  }
+
   void onReset() {
     _favorite = null;
     _startDate = null;
     _endDate = null;
     _status = null;
+    _type = null;
     notifyListeners();
   }
 

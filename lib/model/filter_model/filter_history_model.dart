@@ -3,16 +3,18 @@ class FilterHistoryModel {
   final DateTime? startDate;
   final DateTime? endDate;
   final String? statusId;
+  final String? typeId;
 
   const FilterHistoryModel({
     this.favorite,
     this.startDate,
     this.endDate,
     this.statusId,
+    this.typeId,
   });
 
   FilterModelResult toStringFilterQUery(String tableName,
-      {String? columnFavorite, String? columnStatusId}) {
+      {String? columnFavorite, String? columnStatusId, String? columnTypeId}) {
     // DateTime still under construction.
     Map<String, Object?> listOfValue = {};
 
@@ -22,6 +24,10 @@ class FilterHistoryModel {
 
     if (columnStatusId != null && statusId != null) {
       listOfValue["$tableName.$columnStatusId"] = statusId;
+    }
+
+    if (columnTypeId != null && typeId != null) {
+      listOfValue["$tableName.$columnTypeId"] = typeId;
     }
 
     final listColumen = listOfValue.keys.map((e) => "$e = ?").toList();
@@ -36,7 +42,7 @@ class FilterHistoryModel {
 
   @override
   String toString() {
-    return 'FilterHistoryModel(favorite: $favorite, startDate: $startDate, endDate: $endDate, statusId: $statusId)';
+    return 'FilterHistoryModel(favorite: $favorite, startDate: $startDate, endDate: $endDate, statusId: $statusId, typeId: $typeId)';
   }
 }
 

@@ -26,6 +26,7 @@ class GamingRepoImpl implements GamingRepo {
       GamingModelV1.table,
       columnStatusId: GamingModelV1.keyidstatus,
       columnFavorite: GamingModelV1.keyfavorite,
+      columnTypeId: GamingModelV1.keyidtype,
     );
     final whereQuery = filterModel?.whereQuery ?? '';
     final whereArgument = filterModel?.argument ?? [];

@@ -73,6 +73,7 @@ class GamingProvider extends BaseProvider {
     final filterData = FilterHistoryModel(
       statusId: filterProvider.status?.key,
       favorite: filterProvider.favorite,
+      typeId: filterProvider.type?.key,
     );
     final gamingRepoImpl = GamingRepoImpl();
     final listResult = await gamingRepoImpl.getListGamingHistory(

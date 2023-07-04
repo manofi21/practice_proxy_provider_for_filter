@@ -76,6 +76,7 @@ class WatchingProvider extends BaseProvider {
     final filterData = FilterHistoryModel(
       statusId: filterProvider.status?.key,
       favorite: filterProvider.favorite,
+      typeId: filterProvider.type?.key,
     );
     final watchRepoImpl = WatchingRepoImpl();
     final listResult = await watchRepoImpl.getListWatchingHistory(

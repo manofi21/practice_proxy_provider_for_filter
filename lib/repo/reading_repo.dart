@@ -26,6 +26,7 @@ class ReadingRepoImpl implements ReadingRepo {
       ReadingModelV1.table,
       columnStatusId: ReadingModelV1.keyidstatus,
       columnFavorite: ReadingModelV1.keyfavorite,
+      columnTypeId: ReadingModelV1.keyidtype,
     );
 
     final whereQuery = filterModel?.whereQuery ?? '';

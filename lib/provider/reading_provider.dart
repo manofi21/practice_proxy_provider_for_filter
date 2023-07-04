@@ -74,6 +74,7 @@ class ReadingProvider extends BaseProvider {
     final filterData = FilterHistoryModel(
       statusId: filterProvider.status?.key,
       favorite: filterProvider.favorite,
+      typeId: filterProvider.type?.key,
     );
     final readRepoImpl = ReadingRepoImpl();
     final listResult = await readRepoImpl.getListReadingHistory(

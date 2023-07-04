@@ -26,6 +26,7 @@ class WatchingRepoImpl implements WatchingRepo {
       WatchingModelV1.table,
       columnStatusId: WatchingModelV1.keyidstatus,
       columnFavorite: WatchingModelV1.keyfavorite,
+      columnTypeId: WatchingModelV1.keyidtype,
     );
     final whereQuery = filterModel?.whereQuery ?? '';
     final whereArgument = filterModel?.argument ?? [];

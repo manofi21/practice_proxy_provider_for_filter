@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:proxy_provider_for_filter/show_dialog/show_edit_dialog.dart';
+import 'package:intl/intl.dart';
 
 import '../entities/base_dropdown_return.dart';
 import '../entities/base_model_entity.dart';
 import '../provider/base_provider.dart';
 import '../utils/get_name_of_title.dart';
 import '../widget/base_widget/form_page_dialog.dart';
-export 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 void showEditDialog<BP extends BaseProvider>(
   BuildContext context, {
@@ -32,6 +32,10 @@ void showEditDialog<BP extends BaseProvider>(
 
           final dataSnap = snapshot.data;
           if (snapshot.hasData && dataSnap != null) {
+            final dateTimeFormat = DateFormat("EEEE, dd MMMM yyyy");
+
+            final createAt = item.createAt;
+            final updateAt = item.updateAt;
             return AlertDialog(
               content: FormPageDialog<BP>(
                 nameTitle: nameTitle,
@@ -42,6 +46,20 @@ void showEditDialog<BP extends BaseProvider>(
                 },
                 dropdonwOption: dataSnap,
                 item: item,
+                children: [
+                  if (createAt != null) ...{
+                    Text(
+                      'Created At : ${dateTimeFormat.format(createAt)}',
+                    ),
+                    const SizedBox(height: 10)
+                  },
+                  if (updateAt != null) ...{
+                    Text(
+                      'Update At : ${dateTimeFormat.format(updateAt)}',
+                    ),
+                    const SizedBox(height: 10)
+                  },
+                ],
                 useFavoriteSection: true,
               ),
             );

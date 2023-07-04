@@ -17,6 +17,7 @@ class FormPageDialog<BP extends BaseProvider> extends StatefulWidget {
   final String buttonUpdateTitle;
   final String pageTitle;
   final bool useFavoriteSection;
+  final List<Widget> children;
 
   const FormPageDialog({
     Key? key,
@@ -27,6 +28,7 @@ class FormPageDialog<BP extends BaseProvider> extends StatefulWidget {
     required this.pageTitle,
     this.item,
     this.useFavoriteSection = false,
+    this.children = const [],
   }) : super(key: key);
 
   @override
@@ -93,6 +95,7 @@ class _FormPageDialogState<BP extends BaseProvider>
               },
             )
           },
+          ...widget.children,
           SizedBox(
             width: MediaQuery.of(context).size.width - 10,
             child: OutlinedButton(
@@ -103,6 +106,7 @@ class _FormPageDialogState<BP extends BaseProvider>
                   typeDropdown: type ?? DropdownItem(key: ''),
                   statusDropdown: status ?? DropdownItem(key: ''),
                   isFavorite: favorite,
+                  createAt: widget.item?.createAt,
                 );
                 if (getEntity != null) {
                   await widget.onSubmitValue(getEntity);

@@ -6,6 +6,8 @@ abstract class BaseModelEntity {
   final bool isFavorite;
   final DropdownItem typeDropdown;
   final DropdownItem statusDropdown;
+  final DateTime? createAt;
+  final DateTime? updateAt;
 
   BaseModelEntity({
     this.id,
@@ -13,5 +15,7 @@ abstract class BaseModelEntity {
     required this.isFavorite,
     required this.typeDropdown,
     required this.statusDropdown,
+    required this.createAt, 
+    required this.updateAt,
   });
 }

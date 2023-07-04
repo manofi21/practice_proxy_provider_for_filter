@@ -9,14 +9,19 @@ class GamingModelEntity extends BaseModelEntity {
     int? id,
     required String name,
     required bool isFavorite,
+    DateTime? createAt,
+    DateTime? updateAt,
     required this.typeGame,
     required this.statusGame,
   }) : super(
-            id: id,
-            name: name,
-            isFavorite: isFavorite,
-            typeDropdown: typeGame,
-            statusDropdown: statusGame);
+          id: id,
+          name: name,
+          isFavorite: isFavorite,
+          typeDropdown: typeGame,
+          statusDropdown: statusGame,
+          createAt: createAt,
+          updateAt: updateAt,
+        );
 
   @override
   bool operator ==(covariant BaseModelEntity other) {
@@ -26,7 +31,9 @@ class GamingModelEntity extends BaseModelEntity {
         other.name == name &&
         other.isFavorite == isFavorite &&
         other.typeDropdown == typeDropdown &&
-        other.statusDropdown == statusDropdown;
+        other.statusDropdown == statusDropdown &&
+        other.createAt == createAt &&
+        other.updateAt == updateAt;
   }
 
   @override
@@ -35,7 +42,9 @@ class GamingModelEntity extends BaseModelEntity {
         name.hashCode ^
         isFavorite.hashCode ^
         typeDropdown.hashCode ^
-        statusDropdown.hashCode;
+        statusDropdown.hashCode ^
+        createAt.hashCode ^
+        updateAt.hashCode;
   }
 
   GamingModelEntity copyWith({
@@ -44,6 +53,8 @@ class GamingModelEntity extends BaseModelEntity {
     bool? isFavorite,
     DropdownItem? typeGame,
     DropdownItem? statusGame,
+    DateTime? createAt,
+    DateTime? updateAt,
   }) {
     return GamingModelEntity(
       id: id ?? this.id,
@@ -51,6 +62,8 @@ class GamingModelEntity extends BaseModelEntity {
       isFavorite: isFavorite ?? this.isFavorite,
       typeGame: typeGame ?? this.typeGame,
       statusGame: statusGame ?? this.statusGame,
+      createAt: createAt ?? this.createAt,
+      updateAt: updateAt ?? this.updateAt,
     );
   }
 

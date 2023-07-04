@@ -2,7 +2,7 @@ import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
 
 import 'base_model_entity.dart';
 
-class WatchingModelEntity extends BaseModelEntity{
+class WatchingModelEntity extends BaseModelEntity {
   final DropdownItem typeWatch;
   final DropdownItem statusWatch;
 
@@ -10,14 +10,19 @@ class WatchingModelEntity extends BaseModelEntity{
     int? id,
     required String name,
     required bool isFavorite,
+    DateTime? createAt,
+    DateTime? updateAt,
     required this.typeWatch,
     required this.statusWatch,
-  }): super(
-            id: id,
-            name: name,
-            isFavorite: isFavorite,
-            typeDropdown: typeWatch,
-            statusDropdown: statusWatch);
+  }) : super(
+          id: id,
+          name: name,
+          isFavorite: isFavorite,
+          typeDropdown: typeWatch,
+          statusDropdown: statusWatch,
+          createAt: createAt,
+          updateAt: updateAt,
+        );
 
   WatchingModelEntity copyWith({
     int? id,
@@ -25,6 +30,8 @@ class WatchingModelEntity extends BaseModelEntity{
     bool? isFavorite,
     DropdownItem? typeWatch,
     DropdownItem? statusWatch,
+    DateTime? createAt,
+    DateTime? updateAt,
   }) {
     return WatchingModelEntity(
       id: id ?? this.id,
@@ -32,6 +39,8 @@ class WatchingModelEntity extends BaseModelEntity{
       isFavorite: isFavorite ?? this.isFavorite,
       typeWatch: typeWatch ?? this.typeWatch,
       statusWatch: statusWatch ?? this.statusWatch,
+      createAt: createAt ?? this.createAt,
+      updateAt: updateAt ?? this.updateAt,
     );
   }
 
@@ -43,7 +52,9 @@ class WatchingModelEntity extends BaseModelEntity{
         other.name == name &&
         other.isFavorite == isFavorite &&
         other.typeDropdown == typeWatch &&
-        other.statusDropdown == statusWatch;
+        other.statusDropdown == statusWatch &&
+        other.createAt == createAt &&
+        other.updateAt == updateAt;
   }
 
   @override
@@ -52,7 +63,9 @@ class WatchingModelEntity extends BaseModelEntity{
         name.hashCode ^
         isFavorite.hashCode ^
         typeDropdown.hashCode ^
-        statusDropdown.hashCode;
+        statusDropdown.hashCode ^
+        createAt.hashCode ^
+        updateAt.hashCode;
   }
 
   @override

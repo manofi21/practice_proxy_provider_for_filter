@@ -2,7 +2,7 @@ import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
 
 import 'base_model_entity.dart';
 
-class ReadingModelEntity extends BaseModelEntity{
+class ReadingModelEntity extends BaseModelEntity {
   final DropdownItem typeRead;
   final DropdownItem statusRead;
 
@@ -10,14 +10,19 @@ class ReadingModelEntity extends BaseModelEntity{
     int? id,
     required String name,
     required bool isFavorite,
+    DateTime? createAt,
+    DateTime? updateAt,
     required this.typeRead,
     required this.statusRead,
-  }): super(
-            id: id,
-            name: name,
-            isFavorite: isFavorite,
-            typeDropdown: typeRead,
-            statusDropdown: statusRead);
+  }) : super(
+          id: id,
+          name: name,
+          isFavorite: isFavorite,
+          typeDropdown: typeRead,
+          statusDropdown: statusRead,
+          createAt: createAt,
+          updateAt: updateAt,
+        );
 
   ReadingModelEntity copyWith({
     int? id,
@@ -25,6 +30,8 @@ class ReadingModelEntity extends BaseModelEntity{
     bool? isFavorite,
     DropdownItem? typeRead,
     DropdownItem? statusRead,
+    DateTime? createAt,
+    DateTime? updateAt,
   }) {
     return ReadingModelEntity(
       id: id ?? this.id,
@@ -32,6 +39,8 @@ class ReadingModelEntity extends BaseModelEntity{
       isFavorite: isFavorite ?? this.isFavorite,
       typeRead: typeRead ?? this.typeRead,
       statusRead: statusRead ?? this.statusRead,
+      createAt: createAt ?? this.createAt,
+      updateAt: updateAt ?? this.updateAt,
     );
   }
 
@@ -43,7 +52,9 @@ class ReadingModelEntity extends BaseModelEntity{
         other.name == name &&
         other.isFavorite == isFavorite &&
         other.typeDropdown == typeDropdown &&
-        other.statusDropdown == statusDropdown;
+        other.statusDropdown == statusDropdown &&
+        other.createAt == createAt &&
+        other.updateAt == updateAt;
   }
 
   @override
@@ -52,7 +63,9 @@ class ReadingModelEntity extends BaseModelEntity{
         name.hashCode ^
         isFavorite.hashCode ^
         typeDropdown.hashCode ^
-        statusDropdown.hashCode;
+        statusDropdown.hashCode ^
+        createAt.hashCode ^
+        updateAt.hashCode;
   }
 
   @override

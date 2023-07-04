@@ -15,6 +15,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
   required bool isFavorite,
   required DropdownItem statusDropdown,
   required DropdownItem typeDropdown,
+  DateTime? createAt,
 }) {
   assert(BP == GamingProvider || BP == WatchingProvider || BP == ReadingProvider);
 
@@ -25,6 +26,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       isFavorite: isFavorite,
       typeGame: typeDropdown,
       statusGame: statusDropdown,
+      createAt: createAt,
     );
   }
 
@@ -35,6 +37,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       isFavorite: isFavorite,
       typeWatch: typeDropdown,
       statusWatch: statusDropdown,
+      createAt: createAt,
     );
   }
 
@@ -45,6 +48,7 @@ BaseModelEntity? entityInputData<BP extends BaseProvider>({
       isFavorite: isFavorite,
       typeRead: typeDropdown,
       statusRead: statusDropdown,
+      createAt: createAt,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:proxy_provider_for_filter/utils/on_update_favorite_entity.dart';
 
 import '../provider/base_provider.dart';

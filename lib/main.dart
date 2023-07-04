@@ -36,14 +36,26 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (create) => FilterProvider(),
           ),
-          ChangeNotifierProvider(
+          ChangeNotifierProxyProvider<FilterProvider, WatchingProvider>(
             create: (create) => WatchingProvider(),
+            update: (BuildContext context, filterProvider, watchingProvider) {
+              watchingProvider!.initFilterProv(filterProvider);
+              return watchingProvider;
+            },
           ),
-          ChangeNotifierProvider(
+          ChangeNotifierProxyProvider<FilterProvider, ReadingProvider>(
             create: (create) => ReadingProvider(),
+            update: (BuildContext context, filterProvider, watchingProvider) {
+              watchingProvider!.initFilterProv(filterProvider);
+              return watchingProvider;
+            },
           ),
-          ChangeNotifierProvider(
+          ChangeNotifierProxyProvider<FilterProvider, GamingProvider>(
             create: (create) => GamingProvider(),
+            update: (BuildContext context, filterProvider, watchingProvider) {
+              watchingProvider!.initFilterProv(filterProvider);
+              return watchingProvider;
+            },
           ),
         ],
         child: const DashboardView(),

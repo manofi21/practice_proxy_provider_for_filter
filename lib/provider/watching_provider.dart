@@ -6,7 +6,7 @@ import 'package:proxy_provider_for_filter/model/watching_model_v1.dart';
 import 'package:proxy_provider_for_filter/provider/filter_provider.dart';
 import '../entities/base_dropdown_return.dart';
 import '../entities/watching_model_entity.dart';
-import '../repo/watching_repo.dart';
+import '../local_data_source/watching_local_data_source.dart';
 import 'base_provider.dart';
 
 class WatchingProvider extends BaseProvider {
@@ -21,7 +21,7 @@ class WatchingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingRepoImpl();
+    final watchRepoImpl = WatchingLocalDataSourceImpl();
     final listResult = await watchRepoImpl.getListWatchingHistory();
     onSuccess(listResult);
   }
@@ -32,7 +32,7 @@ class WatchingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingRepoImpl();
+    final watchRepoImpl = WatchingLocalDataSourceImpl();
     final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
 
     if (inputModel is WatchingModelEntity) {
@@ -52,7 +52,7 @@ class WatchingProvider extends BaseProvider {
 
   @override
   Future<BaseDropdownReturn> processLoadDropdownData() async {
-    final watchRepoImpl = WatchingRepoImpl();
+    final watchRepoImpl = WatchingLocalDataSourceImpl();
     final listStatus = await watchRepoImpl.getListWatcStatusModel();
     final listType = await watchRepoImpl.getListWatchTypeModel();
 
@@ -78,7 +78,7 @@ class WatchingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final watchRepoImpl = WatchingRepoImpl();
+    final watchRepoImpl = WatchingLocalDataSourceImpl();
     final listResult = await watchRepoImpl.getListWatchingHistory(
         filterHistoryModel: filterData);
     onSuccess(listResult);
@@ -90,7 +90,7 @@ class WatchingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingRepoImpl();
+    final watchRepoImpl = WatchingLocalDataSourceImpl();
     final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
     assert(inputModel.createAt != null);
 

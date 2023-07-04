@@ -6,7 +6,7 @@ import '../entities/dropdown_item.dart';
 import '../entities/reading_model_entity.dart';
 import '../model/filter_model/filter_history_model.dart';
 import '../model/reading_model_v1.dart';
-import '../repo/reading_repo.dart';
+import '../local_data_source/reading_local_data_source.dart';
 import 'base_provider.dart';
 import 'filter_provider.dart';
 
@@ -22,7 +22,7 @@ class ReadingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final readhRepoImpl = ReadingRepoImpl();
+    final readhRepoImpl = ReadingLocalDataSourceImpl();
     final listResult = await readhRepoImpl.getListReadingHistory();
     onSuccess(listResult);
   }
@@ -33,7 +33,7 @@ class ReadingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final readhRepoImpl = ReadingRepoImpl();
+    final readhRepoImpl = ReadingLocalDataSourceImpl();
     final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
 
     if (inputModel is ReadingModelEntity) {
@@ -53,7 +53,7 @@ class ReadingProvider extends BaseProvider {
 
   @override
   Future<BaseDropdownReturn> processLoadDropdownData() async {
-    final readingRepoImpl = ReadingRepoImpl();
+    final readingRepoImpl = ReadingLocalDataSourceImpl();
     final listStatus = await readingRepoImpl.getListReadStatusModel();
     final listType = await readingRepoImpl.getListReadTypeModel();
     return BaseDropdownReturn(
@@ -76,7 +76,7 @@ class ReadingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final readRepoImpl = ReadingRepoImpl();
+    final readRepoImpl = ReadingLocalDataSourceImpl();
     final listResult = await readRepoImpl.getListReadingHistory(
         filterHistoryModel: filterData);
     onSuccess(listResult);
@@ -88,7 +88,7 @@ class ReadingProvider extends BaseProvider {
       required BaseModelEntity inputModel,
       required void Function(List<BaseModelEntity> listItems)
           onSuccess}) async {
-    final readingRepoImpl = ReadingRepoImpl();
+    final readingRepoImpl = ReadingLocalDataSourceImpl();
     final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
     assert(inputModel.createAt != null);
 

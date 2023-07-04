@@ -8,7 +8,7 @@ import '../sql_db/sql_repo.dart';
 import '../utils/convert_maps_to_entity.dart'
     show convertMapToWatchingEntitiy, keyidtable;
 
-abstract class WatchingRepo {
+abstract class WatchingLocalDataSource {
   Future<List<WatchTypeModelV1>> getListWatchTypeModel();
   Future<List<WatchStatusModelV1>> getListWatcStatusModel();
   Future<List<WatchingModelEntity>> getListWatchingHistory(
@@ -17,7 +17,7 @@ abstract class WatchingRepo {
   Future<void> updateWatchingHistory(WatchingModelV1 watchingEntity);
 }
 
-class WatchingRepoImpl implements WatchingRepo {
+class WatchingLocalDataSourceImpl implements WatchingLocalDataSource {
   @override
   Future<List<WatchingModelEntity>> getListWatchingHistory(
       {FilterHistoryModel? filterHistoryModel}) async {

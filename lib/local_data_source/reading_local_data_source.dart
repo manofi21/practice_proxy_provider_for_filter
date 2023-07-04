@@ -8,7 +8,7 @@ import '../sql_db/sql_repo.dart';
 import '../utils/convert_maps_to_entity.dart'
     show convertMapToReadingEntitiy, keyidtable;
 
-abstract class ReadingRepo {
+abstract class ReadingLocalDataSource {
   Future<List<ReadTypeModelV1>> getListReadTypeModel();
   Future<List<ReadStatusModelV1>> getListReadStatusModel();
   Future<List<ReadingModelEntity>> getListReadingHistory(
@@ -17,7 +17,7 @@ abstract class ReadingRepo {
   Future<void> updateReadingHistory(ReadingModelV1 readingEntity);
 }
 
-class ReadingRepoImpl implements ReadingRepo {
+class ReadingLocalDataSourceImpl implements ReadingLocalDataSource {
   @override
   Future<List<ReadingModelEntity>> getListReadingHistory(
       {FilterHistoryModel? filterHistoryModel}) async {

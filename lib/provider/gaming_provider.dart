@@ -6,7 +6,7 @@ import 'package:proxy_provider_for_filter/model/gaming_model_v1.dart';
 
 import '../entities/dropdown_item.dart';
 import '../model/filter_model/filter_history_model.dart';
-import '../repo/gaming_repo.dart';
+import '../local_data_source/gaming_local_data_source.dart';
 import 'base_provider.dart';
 import 'filter_provider.dart';
 
@@ -22,7 +22,7 @@ class GamingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final gamingRepoImpl = GamingRepoImpl();
+    final gamingRepoImpl = GamingLocalDataSourceImpl();
     final listResult = await gamingRepoImpl.getListGamingHistory();
     onSuccess(listResult);
   }
@@ -33,7 +33,7 @@ class GamingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final gamingRepoImpl = GamingRepoImpl();
+    final gamingRepoImpl = GamingLocalDataSourceImpl();
     final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
     if (inputModel is GamingModelEntity) {
       final gamingInputModel = GamingModelV1(
@@ -52,7 +52,7 @@ class GamingProvider extends BaseProvider {
 
   @override
   Future<BaseDropdownReturn> processLoadDropdownData() async {
-    final readingRepoImpl = GamingRepoImpl();
+    final readingRepoImpl = GamingLocalDataSourceImpl();
     final listStatus = await readingRepoImpl.getListGameStatusModel();
     final listType = await readingRepoImpl.getListGameTypeModel();
     return BaseDropdownReturn(
@@ -75,7 +75,7 @@ class GamingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final gamingRepoImpl = GamingRepoImpl();
+    final gamingRepoImpl = GamingLocalDataSourceImpl();
     final listResult = await gamingRepoImpl.getListGamingHistory(
         filterHistoryModel: filterData);
     onSuccess(listResult);
@@ -83,7 +83,7 @@ class GamingProvider extends BaseProvider {
   
   @override
   Future<void> processUpdateData({required BuildContext context, required BaseModelEntity inputModel, required void Function(List<BaseModelEntity> listItems) onSuccess}) async {
-    final gamingRepoImpl = GamingRepoImpl();
+    final gamingRepoImpl = GamingLocalDataSourceImpl();
 
     if (inputModel is GamingModelEntity) {
       final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;

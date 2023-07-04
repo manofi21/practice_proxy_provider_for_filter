@@ -8,7 +8,7 @@ import '../sql_db/sql_repo.dart';
 import '../utils/convert_maps_to_entity.dart'
     show convertMapToGamingEntitiy, keyidtable;
 
-abstract class GamingRepo {
+abstract class GamingLocalDataSource {
   Future<List<GameTypeModelV1>> getListGameTypeModel();
   Future<List<GameStatusModelV1>> getListGameStatusModel();
   Future<List<GamingModelEntity>> getListGamingHistory(
@@ -17,7 +17,7 @@ abstract class GamingRepo {
   Future<void> updateGamingHistory(GamingModelV1 gamingEntity);
 }
 
-class GamingRepoImpl implements GamingRepo {
+class GamingLocalDataSourceImpl implements GamingLocalDataSource {
   @override
   Future<List<GamingModelEntity>> getListGamingHistory(
       {FilterHistoryModel? filterHistoryModel}) async {

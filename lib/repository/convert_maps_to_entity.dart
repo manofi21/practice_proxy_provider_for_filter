@@ -13,7 +13,7 @@ import '../model/reading_model_v1.dart';
 import '../model/watch_status_model_v1.dart';
 import '../model/watch_type_model_v1.dart';
 import '../model/watching_model_v1.dart';
-import 'convert_type.dart';
+import '../utils/convert_type.dart';
 
 /// custom name id for used in 'as' keyword because the id been return is id from status table
 const String keyidtable = "id_table";

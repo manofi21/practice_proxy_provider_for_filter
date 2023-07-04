@@ -5,7 +5,7 @@ import '../model/filter_model/filter_history_model.dart';
 import '../model/game_type_model_v1.dart';
 import '../model/gaming_model_v1.dart';
 import '../sql_db/sql_repo.dart';
-import '../utils/convert_maps_to_entity.dart'
+import '../repository/convert_maps_to_entity.dart'
     show convertMapToGamingEntitiy, keyidtable;
 
 abstract class GamingLocalDataSource {

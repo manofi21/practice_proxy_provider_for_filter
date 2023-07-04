@@ -5,7 +5,7 @@ import '../model/filter_model/filter_history_model.dart';
 import '../model/watch_type_model_v1.dart';
 import '../model/watching_model_v1.dart';
 import '../sql_db/sql_repo.dart';
-import '../utils/convert_maps_to_entity.dart'
+import '../repository/convert_maps_to_entity.dart'
     show convertMapToWatchingEntitiy, keyidtable;
 
 abstract class WatchingLocalDataSource {

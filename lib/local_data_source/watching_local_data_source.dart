@@ -9,7 +9,7 @@ abstract class WatchingLocalDataSource {
   Future<List<WatchTypeModelV1>> getListWatchTypeModel();
   Future<List<WatchStatusModelV1>> getListWatcStatusModel();
   Future<List<Map<String, dynamic>>> getListWatchingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   });
   Future<void> addWatchingHistory(WatchingModelV1 watchingEntity);
@@ -19,7 +19,7 @@ abstract class WatchingLocalDataSource {
 class WatchingLocalDataSourceImpl implements WatchingLocalDataSource {
   @override
   Future<List<Map<String, dynamic>>> getListWatchingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   }) async {
     final sqlBase = SqlBaseRepoImpl();

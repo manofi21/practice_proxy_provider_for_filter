@@ -10,7 +10,7 @@ abstract class GamingLocalDataSource {
   Future<List<GameTypeModelV1>> getListGameTypeModel();
   Future<List<GameStatusModelV1>> getListGameStatusModel();
   Future<List<Map<String, dynamic>>> getListGamingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   });
   Future<void> addGamingHistory(GamingModelV1 gamingEntity);
@@ -20,7 +20,7 @@ abstract class GamingLocalDataSource {
 class GamingLocalDataSourceImpl implements GamingLocalDataSource {
   @override
   Future<List<Map<String, dynamic>>> getListGamingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   }) async {
     final sqlBase = SqlBaseRepoImpl();

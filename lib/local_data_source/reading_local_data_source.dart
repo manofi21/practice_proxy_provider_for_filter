@@ -9,7 +9,7 @@ abstract class ReadingLocalDataSource {
   Future<List<ReadTypeModelV1>> getListReadTypeModel();
   Future<List<ReadStatusModelV1>> getListReadStatusModel();
   Future<List<Map<String, dynamic>>> getListReadingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   });
   Future<void> addReadingHistory(ReadingModelV1 readingEntity);
@@ -19,7 +19,7 @@ abstract class ReadingLocalDataSource {
 class ReadingLocalDataSourceImpl implements ReadingLocalDataSource {
   @override
   Future<List<Map<String, dynamic>>> getListReadingHistory({
-    String? whereQuery,
+    String whereQuery = '',
     List<Object?> whereArgument = const [],
   }) async {
     final sqlBase = SqlBaseRepoImpl();

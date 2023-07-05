@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/entities/base_dropdown_return.dart';
 import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 import 'package:proxy_provider_for_filter/entities/gaming_model_entity.dart';
-import 'package:proxy_provider_for_filter/model/gaming_model_v1.dart';
 
 import '../entities/dropdown_item.dart';
 import '../model/filter_model/filter_history_model.dart';
@@ -36,6 +35,7 @@ class GamingProvider extends BaseProvider {
   }) async {
     final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
 
+    assert(inputModel is GamingModelEntity);
     if (inputModel is GamingModelEntity) {
       await gamingRepoImpl.addFromEntityToLocalSource(inputModel);
     }
@@ -83,6 +83,7 @@ class GamingProvider extends BaseProvider {
           onSuccess}) async {
     final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
 
+    assert(inputModel is GamingModelEntity);
     if (inputModel is GamingModelEntity) {
       await gamingRepoImpl.updateFromEntityToLocalSource(inputModel);
     }

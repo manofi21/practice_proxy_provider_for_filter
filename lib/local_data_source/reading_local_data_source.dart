@@ -1,40 +1,31 @@
 import 'package:proxy_provider_for_filter/model/read_status_model_v1.dart';
 
-import '../entities/reading_model_entity.dart';
-import '../model/filter_model/filter_history_model.dart';
 import '../model/read_type_model_v1.dart';
 import '../model/reading_model_v1.dart';
 import '../sql_db/sql_repo.dart';
-import '../repository/convert_maps_to_entity.dart'
-    show convertMapToReadingEntitiy, keyidtable;
+import '../repository/convert_maps_to_entity.dart' show keyidtable;
 
 abstract class ReadingLocalDataSource {
   Future<List<ReadTypeModelV1>> getListReadTypeModel();
   Future<List<ReadStatusModelV1>> getListReadStatusModel();
-  Future<List<ReadingModelEntity>> getListReadingHistory(
-      {FilterHistoryModel? filterHistoryModel});
+  Future<List<Map<String, dynamic>>> getListReadingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  });
   Future<void> addReadingHistory(ReadingModelV1 readingEntity);
   Future<void> updateReadingHistory(ReadingModelV1 readingEntity);
 }
 
 class ReadingLocalDataSourceImpl implements ReadingLocalDataSource {
   @override
-  Future<List<ReadingModelEntity>> getListReadingHistory(
-      {FilterHistoryModel? filterHistoryModel}) async {
+  Future<List<Map<String, dynamic>>> getListReadingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  }) async {
     final sqlBase = SqlBaseRepoImpl();
-    final filterModel = filterHistoryModel?.toStringFilterQUery(
-      ReadingModelV1.table,
-      columnStatusId: ReadingModelV1.keyidstatus,
-      columnFavorite: ReadingModelV1.keyfavorite,
-      columnTypeId: ReadingModelV1.keyidtype,
-    );
 
-    final whereQuery = filterModel?.whereQuery ?? '';
-    final whereArgument = filterModel?.argument ?? [];
-
-    final resultFromQuery =
-        await sqlBase.getListDataRawQuery<ReadingModelEntity>(
-      fromMap: convertMapToReadingEntitiy,
+    final resultFromQuery = await sqlBase.getListDataRawQuery(
+      fromMap: (e) => e,
       rawQuery:
           "SELECT ${ReadingModelV1.table}.${ReadingModelV1.keyid} as $keyidtable,* FROM ${ReadingModelV1.table} "
           "INNER JOIN ${ReadTypeModelV1.table} ON ${ReadingModelV1.table}.${ReadingModelV1.keyidtype} = ${ReadTypeModelV1.table}.${ReadTypeModelV1.keyid} "
@@ -42,7 +33,6 @@ class ReadingLocalDataSourceImpl implements ReadingLocalDataSource {
           "$whereQuery",
       arguments: whereArgument,
     );
-
     return resultFromQuery;
   }
 

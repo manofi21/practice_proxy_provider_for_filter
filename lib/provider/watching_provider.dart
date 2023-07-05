@@ -34,6 +34,7 @@ class WatchingProvider extends BaseProvider {
   }) async {
     final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
 
+    assert(inputModel is WatchingModelEntity);
     if (inputModel is WatchingModelEntity) {
       await watchRepoImpl.addFromEntityToLocalSource(inputModel);
     }
@@ -84,6 +85,7 @@ class WatchingProvider extends BaseProvider {
   }) async {
     final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
 
+    assert(inputModel is WatchingModelEntity);
     if (inputModel is WatchingModelEntity) {
       await watchRepoImpl.updateFromEntityToLocalSource(inputModel);
     }

@@ -5,8 +5,8 @@ import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 import '../entities/dropdown_item.dart';
 import '../entities/reading_model_entity.dart';
 import '../model/filter_model/filter_history_model.dart';
-import '../model/reading_model_v1.dart';
 import '../local_data_source/reading_local_data_source.dart';
+import '../repository/reading_repo.dart';
 import 'base_provider.dart';
 import 'filter_provider.dart';
 
@@ -22,8 +22,8 @@ class ReadingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final readhRepoImpl = ReadingLocalDataSourceImpl();
-    final listResult = await readhRepoImpl.getListReadingHistory();
+    final readRepoImpl = ReadingRepoImpl(ReadingLocalDataSourceImpl());
+    final listResult = await readRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -33,21 +33,14 @@ class ReadingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final readhRepoImpl = ReadingLocalDataSourceImpl();
-    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final readRepoImpl = ReadingRepoImpl(ReadingLocalDataSourceImpl());
 
+    assert(inputModel is ReadingModelEntity);
     if (inputModel is ReadingModelEntity) {
-      final readingInputModel = ReadingModelV1(
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusRead: inputModel.statusRead.key,
-        idTypeRead: inputModel.typeRead.key,
-        createAt: createAtMilliSecond,
-      );
-      await readhRepoImpl.addReadingHistory(readingInputModel);
+      await readRepoImpl.addFromEntityToLocalSource(inputModel);
     }
 
-    final listResult = await readhRepoImpl.getListReadingHistory();
+    final listResult = await readRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -76,9 +69,9 @@ class ReadingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final readRepoImpl = ReadingLocalDataSourceImpl();
-    final listResult = await readRepoImpl.getListReadingHistory(
-        filterHistoryModel: filterData);
+    final readRepoImpl = ReadingRepoImpl(ReadingLocalDataSourceImpl());
+
+    final listResult = await readRepoImpl.filterFromListSource(filterData);
     onSuccess(listResult);
   }
 
@@ -88,26 +81,13 @@ class ReadingProvider extends BaseProvider {
       required BaseModelEntity inputModel,
       required void Function(List<BaseModelEntity> listItems)
           onSuccess}) async {
-    final readingRepoImpl = ReadingLocalDataSourceImpl();
-    final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
-    assert(inputModel.createAt != null);
+    final readRepoImpl = ReadingRepoImpl(ReadingLocalDataSourceImpl());
 
-    final createAtMilliSecond =
-        inputModel.createAt!.toUtc().millisecondsSinceEpoch;
-
+    assert(inputModel is ReadingModelEntity);
     if (inputModel is ReadingModelEntity) {
-      final readingInputModel = ReadingModelV1(
-        id: inputModel.id,
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusRead: inputModel.statusRead.key,
-        idTypeRead: inputModel.typeRead.key,
-        createAt: createAtMilliSecond,
-        updateAt: updateAtAsMilliSecond,
-      );
-      await readingRepoImpl.updateReadingHistory(readingInputModel);
+      await readRepoImpl.updateFromEntityToLocalSource(inputModel);
     }
-    final listResult = await readingRepoImpl.getListReadingHistory();
+    final listResult = await readRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 }

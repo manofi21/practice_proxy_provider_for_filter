@@ -1,39 +1,32 @@
 import 'package:proxy_provider_for_filter/model/game_status_model_v1.dart';
 
-import '../entities/gaming_model_entity.dart';
-import '../model/filter_model/filter_history_model.dart';
 import '../model/game_type_model_v1.dart';
 import '../model/gaming_model_v1.dart';
 import '../sql_db/sql_repo.dart';
 import '../repository/convert_maps_to_entity.dart'
-    show convertMapToGamingEntitiy, keyidtable;
+    show keyidtable;
 
 abstract class GamingLocalDataSource {
   Future<List<GameTypeModelV1>> getListGameTypeModel();
   Future<List<GameStatusModelV1>> getListGameStatusModel();
-  Future<List<GamingModelEntity>> getListGamingHistory(
-      {FilterHistoryModel? filterHistoryModel});
+  Future<List<Map<String, dynamic>>> getListGamingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  });
   Future<void> addGamingHistory(GamingModelV1 gamingEntity);
   Future<void> updateGamingHistory(GamingModelV1 gamingEntity);
 }
 
 class GamingLocalDataSourceImpl implements GamingLocalDataSource {
   @override
-  Future<List<GamingModelEntity>> getListGamingHistory(
-      {FilterHistoryModel? filterHistoryModel}) async {
+  Future<List<Map<String, dynamic>>> getListGamingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  }) async {
     final sqlBase = SqlBaseRepoImpl();
-    final filterModel = filterHistoryModel?.toStringFilterQUery(
-      GamingModelV1.table,
-      columnStatusId: GamingModelV1.keyidstatus,
-      columnFavorite: GamingModelV1.keyfavorite,
-      columnTypeId: GamingModelV1.keyidtype,
-    );
-    final whereQuery = filterModel?.whereQuery ?? '';
-    final whereArgument = filterModel?.argument ?? [];
 
-    final resultFromQuery =
-        await sqlBase.getListDataRawQuery<GamingModelEntity>(
-      fromMap: convertMapToGamingEntitiy,
+    final resultFromQuery = await sqlBase.getListDataRawQuery(
+      fromMap: (e) => e,
       rawQuery:
           "SELECT ${GamingModelV1.table}.${GamingModelV1.keyid} as $keyidtable,* FROM ${GamingModelV1.table} "
           "INNER JOIN ${GameTypeModelV1.table} ON ${GamingModelV1.table}.${GamingModelV1.keyidtype} = ${GameTypeModelV1.table}.${GameTypeModelV1.keyid} "

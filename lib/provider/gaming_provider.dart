@@ -7,6 +7,7 @@ import 'package:proxy_provider_for_filter/model/gaming_model_v1.dart';
 import '../entities/dropdown_item.dart';
 import '../model/filter_model/filter_history_model.dart';
 import '../local_data_source/gaming_local_data_source.dart';
+import '../repository/gaming_repo.dart';
 import 'base_provider.dart';
 import 'filter_provider.dart';
 
@@ -22,8 +23,8 @@ class GamingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final gamingRepoImpl = GamingLocalDataSourceImpl();
-    final listResult = await gamingRepoImpl.getListGamingHistory();
+    final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
+    final listResult = await gamingRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -33,20 +34,13 @@ class GamingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final gamingRepoImpl = GamingLocalDataSourceImpl();
-    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
+
     if (inputModel is GamingModelEntity) {
-      final gamingInputModel = GamingModelV1(
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusGame: inputModel.statusGame.key,
-        idTypeGame: inputModel.typeGame.key,
-        createAt: createAtMilliSecond,
-      );
-      await gamingRepoImpl.addGamingHistory(gamingInputModel);
+      await gamingRepoImpl.addFromEntityToLocalSource(inputModel);
     }
 
-    final listResult = await gamingRepoImpl.getListGamingHistory();
+    final listResult = await gamingRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -75,33 +69,24 @@ class GamingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final gamingRepoImpl = GamingLocalDataSourceImpl();
-    final listResult = await gamingRepoImpl.getListGamingHistory(
-        filterHistoryModel: filterData);
+    final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
+
+    final listResult = await gamingRepoImpl.filterFromListSource(filterData);
     onSuccess(listResult);
   }
-  
+
   @override
-  Future<void> processUpdateData({required BuildContext context, required BaseModelEntity inputModel, required void Function(List<BaseModelEntity> listItems) onSuccess}) async {
-    final gamingRepoImpl = GamingLocalDataSourceImpl();
+  Future<void> processUpdateData(
+      {required BuildContext context,
+      required BaseModelEntity inputModel,
+      required void Function(List<BaseModelEntity> listItems)
+          onSuccess}) async {
+    final gamingRepoImpl = GamingRepoImpl(GamingLocalDataSourceImpl());
 
     if (inputModel is GamingModelEntity) {
-      final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
-      assert(inputModel.createAt != null);
-      
-      final createAtMilliSecond = inputModel.createAt!.toUtc().millisecondsSinceEpoch;
-      final gamingInputModel = GamingModelV1(
-        id: inputModel.id,
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusGame: inputModel.statusGame.key,
-        idTypeGame: inputModel.typeGame.key,
-        createAt: createAtMilliSecond,
-        updateAt: updateAtAsMilliSecond,
-      );
-      await gamingRepoImpl.updateGamingHistory(gamingInputModel);
+      await gamingRepoImpl.updateFromEntityToLocalSource(inputModel);
     }
-    final listResult = await gamingRepoImpl.getListGamingHistory();
+    final listResult = await gamingRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 }

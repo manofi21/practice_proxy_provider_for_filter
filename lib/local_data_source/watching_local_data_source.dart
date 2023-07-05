@@ -1,39 +1,30 @@
 import 'package:proxy_provider_for_filter/model/watch_status_model_v1.dart';
 
-import '../entities/watching_model_entity.dart';
-import '../model/filter_model/filter_history_model.dart';
 import '../model/watch_type_model_v1.dart';
 import '../model/watching_model_v1.dart';
 import '../sql_db/sql_repo.dart';
-import '../repository/convert_maps_to_entity.dart'
-    show convertMapToWatchingEntitiy, keyidtable;
+import '../repository/convert_maps_to_entity.dart' show keyidtable;
 
 abstract class WatchingLocalDataSource {
   Future<List<WatchTypeModelV1>> getListWatchTypeModel();
   Future<List<WatchStatusModelV1>> getListWatcStatusModel();
-  Future<List<WatchingModelEntity>> getListWatchingHistory(
-      {FilterHistoryModel? filterHistoryModel});
+  Future<List<Map<String, dynamic>>> getListWatchingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  });
   Future<void> addWatchingHistory(WatchingModelV1 watchingEntity);
   Future<void> updateWatchingHistory(WatchingModelV1 watchingEntity);
 }
 
 class WatchingLocalDataSourceImpl implements WatchingLocalDataSource {
   @override
-  Future<List<WatchingModelEntity>> getListWatchingHistory(
-      {FilterHistoryModel? filterHistoryModel}) async {
+  Future<List<Map<String, dynamic>>> getListWatchingHistory({
+    String? whereQuery,
+    List<Object?> whereArgument = const [],
+  }) async {
     final sqlBase = SqlBaseRepoImpl();
-    final filterModel = filterHistoryModel?.toStringFilterQUery(
-      WatchingModelV1.table,
-      columnStatusId: WatchingModelV1.keyidstatus,
-      columnFavorite: WatchingModelV1.keyfavorite,
-      columnTypeId: WatchingModelV1.keyidtype,
-    );
-    final whereQuery = filterModel?.whereQuery ?? '';
-    final whereArgument = filterModel?.argument ?? [];
-
-    final resultFromQuery =
-        await sqlBase.getListDataRawQuery<WatchingModelEntity>(
-      fromMap: convertMapToWatchingEntitiy,
+    final resultFromQuery = await sqlBase.getListDataRawQuery(
+      fromMap: (e) => e,
       rawQuery:
           "SELECT ${WatchingModelV1.table}.${WatchingModelV1.keyid} as $keyidtable,* FROM ${WatchingModelV1.table} "
           "INNER JOIN ${WatchTypeModelV1.table} ON ${WatchingModelV1.table}.${WatchingModelV1.keyidtype} = ${WatchTypeModelV1.table}.${WatchTypeModelV1.keyid} "

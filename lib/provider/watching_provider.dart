@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/entities/base_model_entity.dart';
 import 'package:proxy_provider_for_filter/entities/dropdown_item.dart';
 import 'package:proxy_provider_for_filter/model/filter_model/filter_history_model.dart';
-import 'package:proxy_provider_for_filter/model/watching_model_v1.dart';
 import 'package:proxy_provider_for_filter/provider/filter_provider.dart';
 import '../entities/base_dropdown_return.dart';
 import '../entities/watching_model_entity.dart';
 import '../local_data_source/watching_local_data_source.dart';
+import '../repository/watching_repo.dart';
 import 'base_provider.dart';
 
 class WatchingProvider extends BaseProvider {
@@ -21,8 +21,8 @@ class WatchingProvider extends BaseProvider {
     required BuildContext context,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingLocalDataSourceImpl();
-    final listResult = await watchRepoImpl.getListWatchingHistory();
+    final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
+    final listResult = await watchRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -32,21 +32,13 @@ class WatchingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingLocalDataSourceImpl();
-    final createAtMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
+    final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
 
     if (inputModel is WatchingModelEntity) {
-      final watcingInputModel = WatchingModelV1(
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusWatch: inputModel.statusWatch.key,
-        idTypeWatch: inputModel.typeWatch.key,
-        createAt: createAtMilliSecond,
-      );
-      await watchRepoImpl.addWatchingHistory(watcingInputModel);
+      await watchRepoImpl.addFromEntityToLocalSource(inputModel);
     }
 
-    final listResult = await watchRepoImpl.getListWatchingHistory();
+    final listResult = await watchRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 
@@ -78,9 +70,9 @@ class WatchingProvider extends BaseProvider {
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
     );
-    final watchRepoImpl = WatchingLocalDataSourceImpl();
-    final listResult = await watchRepoImpl.getListWatchingHistory(
-        filterHistoryModel: filterData);
+    final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
+
+    final listResult = await watchRepoImpl.filterFromListSource(filterData);
     onSuccess(listResult);
   }
 
@@ -90,26 +82,12 @@ class WatchingProvider extends BaseProvider {
     required BaseModelEntity inputModel,
     required void Function(List<BaseModelEntity> listItems) onSuccess,
   }) async {
-    final watchRepoImpl = WatchingLocalDataSourceImpl();
-    final updateAtAsMilliSecond = DateTime.now().toUtc().millisecondsSinceEpoch;
-    assert(inputModel.createAt != null);
-
-    final createAtMilliSecond =
-        inputModel.createAt!.toUtc().millisecondsSinceEpoch;
+    final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
 
     if (inputModel is WatchingModelEntity) {
-      final watchingInputModel = WatchingModelV1(
-        id: inputModel.id,
-        name: inputModel.name,
-        isFavorite: inputModel.isFavorite ? 1 : 0,
-        idStatusWatch: inputModel.statusWatch.key,
-        idTypeWatch: inputModel.typeWatch.key,
-        createAt: createAtMilliSecond,
-        updateAt: updateAtAsMilliSecond,
-      );
-      await watchRepoImpl.updateWatchingHistory(watchingInputModel);
+      await watchRepoImpl.updateFromEntityToLocalSource(inputModel);
     }
-    final listResult = await watchRepoImpl.getListWatchingHistory();
+    final listResult = await watchRepoImpl.getListFromListSource();
     onSuccess(listResult);
   }
 }

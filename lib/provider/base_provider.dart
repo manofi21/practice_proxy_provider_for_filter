@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../entities/base_dropdown_return.dart';
 import '../entities/base_model_entity.dart';
 
+/// Base Provider yang akan digunakan untuk class GamingProvider, WatchingProvider, dan ReadProvider
 abstract class BaseProvider extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;

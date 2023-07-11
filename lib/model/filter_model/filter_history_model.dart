@@ -13,8 +13,15 @@ class FilterHistoryModel {
     this.typeId,
   });
 
-  FilterModelResult toStringFilterQUery(String tableName,
-      {String? columnFavorite, String? columnStatusId, String? columnTypeId}) {
+  /// columnUpdateAt under constructor
+  FilterModelResult toStringFilterQUery(
+    String tableName, {
+    String? columnFavorite,
+    String? columnStatusId,
+    String? columnTypeId,
+    String? columnCreateAt,
+    // String? columnUpdateAt,
+  }) {
     // DateTime still under construction.
     Map<String, Object?> listOfValue = {};
 
@@ -32,8 +39,34 @@ class FilterHistoryModel {
 
     final listColumen = listOfValue.keys.map((e) => "$e = ?").toList();
     var whereQuery = " WHERE ${listColumen.join(' AND ')}";
-    
     final argument = listOfValue.values.where((e) => e != null).toList();
+    
+    if (startDate != null && columnCreateAt != null) {
+      if (argument.isNotEmpty) {
+        whereQuery += "AND ";
+      }
+
+      whereQuery += "$tableName.$columnCreateAt >= ?";
+      argument.add(startDate!.millisecondsSinceEpoch);
+
+      if (endDate == null) {
+        final now = DateTime.now();
+        final changeToEnd = DateTime(now.year, now.month, now.year, 23, 59, 59, 999);
+        whereQuery += "AND $tableName.$columnCreateAt <= ?";
+        argument.add(changeToEnd.millisecondsSinceEpoch);
+      }
+    }
+
+    if (endDate != null && columnCreateAt != null) {
+      if (argument.isNotEmpty) {
+        whereQuery += "AND ";
+      }
+
+      whereQuery += "$tableName.$columnCreateAt <= ?";
+      argument.add(endDate!.millisecondsSinceEpoch);
+    }
+
+    
     return FilterModelResult(
       whereQuery: whereQuery,
       argument: argument,

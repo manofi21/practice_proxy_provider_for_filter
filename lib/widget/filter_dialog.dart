@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proxy_provider_for_filter/widget/filter_dialog.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:intl/intl.dart';
 export 'package:provider/provider.dart';
 
 import '../entities/base_dropdown_return.dart';
@@ -79,12 +81,35 @@ class _FilterDialogPageState extends State<FilterDialogPage> {
   ];
 
   bool? isFavoriteValue;
+  late final TextEditingController startDateController;
+  late final TextEditingController endDateController;
 
   @override
   void initState() {
     super.initState();
     final filterProvider = widget.filterProvider;
     isFavoriteValue = filterProvider.favorite;
+
+    var startDateString = "";
+    var endDateString = "";
+
+    if (filterProvider.startDate != null) {
+      startDateString = DateFormat("MMM dd, yyyy").format(filterProvider.startDate!);
+    }
+
+    if (filterProvider.endDate != null) {
+      endDateString = DateFormat("MMM dd, yyyy").format(filterProvider.endDate!);
+    }
+    
+    startDateController = TextEditingController(text: startDateString);
+    endDateController = TextEditingController(text: endDateString);
+  }
+
+  @override
+  void dispose() {
+    startDateController.dispose();
+    endDateController.dispose();
+    super.dispose();
   }
 
   @override
@@ -151,49 +176,39 @@ class _FilterDialogPageState extends State<FilterDialogPage> {
             },
             initialValue: filterProvider.status,
           ),
-
-          /// DateTime Column not implement At all
-          /// this widget hind for a while.
-/*          
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: sizeM),
-            child: Column(
-              children: listFilterDate.map((e) {
-                if (e.isEmpty) {
-                  return const SizedBox(
-                    height: sizeM,
-                  );
-                }
-
-                if (e == "Last Update - Start") {
-                  return FilterDateButton(
-                    title: e,
-                    initialDate: filterProvider.startDate,
-                    onDateTimeChange: (selectedStartDate) {
-                      filterProvider.startDate = selectedStartDate;
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: DateTimePicker(
+                    controller: startDateController,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                    dateLabelText: 'Start Create Date',
+                    onChanged: (val) {
+                      filterProvider.startDate = DateTime.parse(val);
                     },
-                  );
-                }
-
-                return FilterDateButton(
-                  title: e,
-                  initialDate: filterProvider.endDate,
-                  onDateTimeChange: (selectedEndDate) {
-                    filterProvider.endDate = selectedEndDate;
-                  },
-                  validator: (onEndDateValidation) {
-                    final compareResult = onEndDateValidation != null ? filterProvider.startDate?.compareTo(onEndDateValidation) : null;
-                    if (compareResult != null && compareResult > 0){
-                      return 'End of Date Time must be greater thant Start of Date';
-                    }
-
-                    return null;
-                  },
-                );
-              }).toList(),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DateTimePicker(
+                    controller: endDateController,
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime.now(),
+                    dateLabelText: 'End Create Date',
+                    onChanged: (val) {
+                      filterProvider.endDate = DateTime.parse(val)
+                          .add(const Duration(days: 1))
+                          .subtract(const Duration(microseconds: 1));
+                    },
+                  ),
+                )
+              ],
             ),
           ),
-*/
           Container(
             margin: const EdgeInsets.all(sizeM),
             child: Row(

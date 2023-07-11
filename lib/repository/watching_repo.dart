@@ -31,6 +31,8 @@ class WatchingRepoImpl implements Repo<WatchingModelEntity> {
       columnStatusId: WatchingModelV1.keyidstatus,
       columnFavorite: WatchingModelV1.keyfavorite,
       columnTypeId: WatchingModelV1.keyidtype,
+      columnCreateAt: WatchingModelV1.keycreateAt,
+      // columnUpdateAt: WatchingModelV1.keyupdateAt,
     );
     final whereQuery = filterModel.whereQuery;
     final whereArgument = filterModel.argument;

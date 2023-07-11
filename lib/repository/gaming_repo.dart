@@ -31,6 +31,8 @@ class GamingRepoImpl implements Repo<GamingModelEntity> {
       columnStatusId: GamingModelV1.keyidstatus,
       columnFavorite: GamingModelV1.keyfavorite,
       columnTypeId: GamingModelV1.keyidtype,
+      columnCreateAt: GamingModelV1.keycreateAt,
+      // columnUpdateAt: GamingModelV1.keyupdateAt,
     );
     final whereQuery = filterModel.whereQuery;
     final whereArgument = filterModel.argument;

@@ -70,6 +70,8 @@ class WatchingProvider extends BaseProvider {
       statusId: filterProvider.status?.key,
       favorite: filterProvider.favorite,
       typeId: filterProvider.type?.key,
+      startDate: filterProvider.startDate,
+      endDate: filterProvider.endDate,
     );
     final watchRepoImpl = WatchingRepoImpl(WatchingLocalDataSourceImpl());
 

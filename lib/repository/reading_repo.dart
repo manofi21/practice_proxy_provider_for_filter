@@ -31,6 +31,8 @@ class ReadingRepoImpl implements Repo<ReadingModelEntity> {
       columnStatusId: ReadingModelV1.keyidstatus,
       columnFavorite: ReadingModelV1.keyfavorite,
       columnTypeId: ReadingModelV1.keyidtype,
+      columnCreateAt: ReadingModelV1.keycreateAt,
+      // columnUpdateAt: ReadingModelV1.keyupdateAt,
     );
     final whereQuery = filterModel.whereQuery;
     final whereArgument = filterModel.argument;
